@@ -264,7 +264,7 @@ fun CaelumTheme(
     dynamicColor: Boolean = true,
     content: @Composable() () -> Unit
 ) {
-    val colorScheme = when {
+    var colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
@@ -272,6 +272,14 @@ fun CaelumTheme(
 
         darkTheme -> darkScheme
         else -> lightScheme
+    }
+
+    if (darkTheme) {
+        colorScheme = colorScheme
+            .copy(
+                surface = colorScheme.surfaceContainer ,
+                surfaceContainer = colorScheme.surface
+            )
     }
 
     MaterialTheme(
