@@ -15,7 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import androidx.core.graphics.toColor
 import androidx.core.view.WindowCompat
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.color.utilities.Blend
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -257,6 +260,8 @@ val unspecified_scheme = ColorFamily(
     Color.Unspecified, Color.Unspecified, Color.Unspecified, Color.Unspecified
 )
 
+
+
 @Composable
 fun CaelumTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -286,5 +291,14 @@ fun CaelumTheme(
         colorScheme = colorScheme,
         typography = Typography,
         content = content
+    )
+}
+
+@Composable
+fun Color.harmonized(): Color {
+    return Color(
+        MaterialColors.harmonize(
+            this.toArgb(), MaterialTheme.colorScheme.primary.toArgb()
+        ).toInt()
     )
 }
