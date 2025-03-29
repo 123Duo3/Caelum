@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ink.duo3.caelum.R
+import ink.duo3.caelum.ui.componets.AirQualityCard
 import ink.duo3.caelum.ui.componets.PrecipitationCard
 import ink.duo3.caelum.ui.componets.Banner
 import ink.duo3.caelum.ui.componets.InfoCard
@@ -47,78 +48,7 @@ fun HomeScreen() {
 
         Spacer(Modifier.height(16.dp))
 
-        InfoCard(
-            icon = painterResource(R.drawable.ic_arrow_upward_20dp),
-            category = "空气质量",
-            title = "122",
-            titleAlt = "不适于敏感人群",
-            subtitle = "与昨天同时间类似。"
-        ) {
-            Row() {
-                Box(
-                    Modifier
-                        .padding(0.dp, 16.dp)
-                        .padding(end = 2.dp)
-                        .height(12.dp)
-                        .fillMaxWidth(0.09f)
-                        .background(
-                            color = aqi1.harmonized(),
-                            shape = RoundedCornerShape(8.dp, 4.dp, 4.dp, 8.dp)
-                        )
-                )
-                Box(
-                    Modifier
-                        .padding(2.dp, 16.dp)
-                        .height(12.dp)
-                        .fillMaxWidth(0.095f)
-                        .background(
-                            color = aqi2.harmonized(),
-                            shape = RoundedCornerShape(4.dp)
-                        )
-                )
-                Box(
-                    Modifier
-                        .padding(2.dp, 16.dp)
-                        .height(12.dp)
-                        .fillMaxWidth(0.125f)
-                        .background(
-                            color = aqi3.harmonized(),
-                            shape = RoundedCornerShape(4.dp)
-                        )
-                )
-                Box(
-                    Modifier
-                        .padding(2.dp, 16.dp)
-                        .height(12.dp)
-                        .fillMaxWidth(0.15f)
-                        .background(
-                            color = aqi4.harmonized(),
-                            shape = RoundedCornerShape(4.dp)
-                        )
-                )
-                Box(
-                    Modifier
-                        .padding(2.dp, 16.dp)
-                        .height(12.dp)
-                        .fillMaxWidth(0.333f)
-                        .background(
-                            color = aqi5.harmonized(),
-                            shape = RoundedCornerShape(4.dp)
-                        )
-                )
-                Box(
-                    Modifier
-                        .padding(0.dp, 16.dp)
-                        .padding(start = 2.dp)
-                        .height(12.dp)
-                        .fillMaxWidth(1f)
-                        .background(
-                            color = aqi6.harmonized(),
-                            shape =  RoundedCornerShape(4.dp, 8.dp, 8.dp, 4.dp)
-                        )
-                )
-            }
-        }
+        AirQualityCard(120)
     }
 }
 
