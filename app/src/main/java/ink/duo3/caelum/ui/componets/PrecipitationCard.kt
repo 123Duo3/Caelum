@@ -10,10 +10,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -109,7 +112,7 @@ private fun Chart(modifier: Modifier) {
         repeat(3) {
             drawLine(
                 color = lineColor,
-                start = Offset(0f , levelHeight * it + p),
+                start = Offset(0f, levelHeight * it + p),
                 end = Offset(size.width, levelHeight * it + p),
                 strokeWidth = LineThickness.toPx()
             )
@@ -122,55 +125,58 @@ private fun Chart(modifier: Modifier) {
         val barWidth = BarThickness.toPx()
         val capRadius = barWidth / 2
 
-        val maxBarHeight = levelHeight * 3
-        val coerceMaxHeight = (maxBarHeight - capRadius) // Without cap
+        val maxBarHeight = levelHeight * 3 - 2.dp.toPx()
 
         repeat(60) { // TODO: How many bars should we show?
             val weight = it / 60f // TODO: Take from data
-            val height = coerceMaxHeight * weight
+            val height = maxBarHeight * weight
 
-            val x = barGap * it + p
-            if (weight > 0f /* TODO: Should we show bar cap? */ && x + barWidth < size.width) {
+            val left = barGap * it
+            val right = left + barWidth
+
+            if (weight > 0f /* TODO: Should we show bar cap? */ && right <= size.width) {
                 val topY = bottomLineY - height
-                drawLine(
-                    color = barColor,
-                    start = Offset(x, topY),
-                    end = Offset(x, bottomLineY),
-                    strokeWidth = barWidth
-                )
-                drawArc(
-                    color = barColor,
-                    startAngle = 0f,
-                    sweepAngle = -180f,
-                    useCenter = false,
-                    topLeft = Offset(
-                        x - capRadius,
-                        (topY - capRadius) + 1f // Erase gap
-                    ),
-                    size = Size(barWidth, barWidth)
-                )
+                val path = Path().apply {
+                    addRoundRect(
+                        RoundRect(
+                            rect = Rect(
+                                left = left,
+                                right = right,
+                                top = topY,
+                                bottom = bottomLineY
+                            ),
+                            topLeft = CornerRadius(capRadius),
+                            topRight = CornerRadius(capRadius),
+                        )
+                    )
+                }
+                drawPath(path, barColor)
             }
         }
 
-        // Tick
+        // Tick - Start
         drawLine(
             color = outlineColor,
-            start = Offset(barGap * 0 + p, bottomLineY),
-            end = Offset(barGap * 0 + p, bottomLineY + tickHeight),
+            start = Offset(p, bottomLineY),
+            end = Offset(p, bottomLineY + tickHeight),
             strokeWidth = LineThickness.toPx()
         )
 
+        // Tick - 10 minutes
+        val tick10x = barGap * 10 + barWidth / 2
         drawLine(
             color = outlineColor,
-            start = Offset(barGap * 10 + p, bottomLineY),
-            end = Offset(barGap * 10 + p, bottomLineY + tickHeight),
+            start = Offset(tick10x, bottomLineY),
+            end = Offset(tick10x, bottomLineY + tickHeight),
             strokeWidth = LineThickness.toPx()
         )
 
+        // Tick - 30 minutes
+        val tick30x = barGap * 30 + barWidth / 2
         drawLine(
             color = outlineColor,
-            start = Offset(barGap * 30 + p, bottomLineY),
-            end = Offset(barGap * 30 + p, bottomLineY + tickHeight),
+            start = Offset(tick30x, bottomLineY),
+            end = Offset(tick30x, bottomLineY + tickHeight),
             strokeWidth = LineThickness.toPx()
         )
 
@@ -187,12 +193,12 @@ private fun Chart(modifier: Modifier) {
         drawText(textMeasurer, "现在", style = textStyle, topLeft = Offset(0f, textTop))
         drawText(
             textMeasurer, "10 分后", style = textStyle, topLeft = Offset(
-                barGap * 10 - (text2Size.size.width / 2), textTop
+                tick10x - (text2Size.size.width / 2), textTop
             )
         )
         drawText(
             textMeasurer, "30 分后", style = textStyle, topLeft = Offset(
-                barGap * 30 - (text3Size.size.width / 2), textTop
+                tick30x - (text3Size.size.width / 2), textTop
             )
         )
     }
