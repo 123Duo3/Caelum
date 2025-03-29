@@ -218,6 +218,16 @@ val surfaceContainerDarkHighContrast = Color(0xFF241F17)
 val surfaceContainerHighDarkHighContrast = Color(0xFF2E2921)
 val surfaceContainerHighestDarkHighContrast = Color(0xFF39342B)
 
+val sun = Color(0xFFF3B13E)
+val moon = Color(0xFFA397C7)
+val cloud = Color(0xFF8B8D8E)
+val rain = Color(0xFF7EB6DA)
+
+val sunDark = Color(0xFFFFC15E)
+val moonDark = Color(0xFFC7BCE8)
+val cloudDark = Color(0xFFEEF2F3)
+val rainDark = Color(0xFF96CAEA)
+
 val temperatureMinor40 = Color(0xFF50376E)
 val temperatureMinor20 = Color(0xFF75589A)
 val temperatureMinor10 = Color(0xFF64A6D5)

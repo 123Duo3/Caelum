@@ -10,6 +10,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -63,6 +64,7 @@ fun AirQualityCard(
 
             Canvas(
                 Modifier
+                    .padding(0.dp, 12.dp)
                     .height(20.dp)
                     .fillMaxWidth()
             ) {

@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ink.duo3.caelum.ui.theme.CaelumTheme
 import ink.duo3.caelum.ui.theme.harmonized
+import ink.duo3.caelum.ui.theme.rain
 import ink.duo3.caelum.ui.theme.temperature0
 import ink.duo3.caelum.ui.theme.temperature10
 import ink.duo3.caelum.ui.theme.temperature20
@@ -86,7 +87,7 @@ private fun Chart(modifier: Modifier) {
     val density = LocalDensity.current
     val outlineColor = MaterialTheme.colorScheme.outlineVariant
     val lineColor = MaterialTheme.colorScheme.surfaceContainer
-    val barColor = Color(0xFF7DB3CF)
+    val barColor = rain.harmonized()
 
     val textMeasurer = rememberTextMeasurer()
 

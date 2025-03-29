@@ -1,14 +1,25 @@
 package ink.duo3.caelum.ui.componets
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import ink.duo3.caelum.ui.componets.MultilayerIcon.ColorTag
+import ink.duo3.caelum.ui.theme.cloud
+import ink.duo3.caelum.ui.theme.cloudDark
 import ink.duo3.caelum.ui.theme.harmonized
+import ink.duo3.caelum.ui.theme.moon
+import ink.duo3.caelum.ui.theme.moonDark
+import ink.duo3.caelum.ui.theme.rain
+import ink.duo3.caelum.ui.theme.rainDark
+import ink.duo3.caelum.ui.theme.sun
+import ink.duo3.caelum.ui.theme.sunDark
 
 fun multilayerIcon(block: MultiLayerIconBuilderScope.() -> Unit): MultilayerIcon {
     val result = BuilderImpl().apply(block).build()
@@ -28,7 +39,7 @@ fun MultilayerIcon(icon: MultilayerIcon, contentDescription: String?, modifier: 
         icon.layers.fastForEach {
             val color = when(it.color) {
                 is MultilayerIcon.IconColor.Normal -> it.color.color
-                is MultilayerIcon.IconColor.Tag -> getColorByTag(it.color.tag)
+                is MultilayerIcon.IconColor.Tag -> getColorByTag(it.color.tag).harmonized()
                 is MultilayerIcon.IconColor.Harmonize -> it.color.color.harmonized()
                 is MultilayerIcon.IconColor.Compute -> it.color.f()
             }
@@ -38,11 +49,20 @@ fun MultilayerIcon(icon: MultilayerIcon, contentDescription: String?, modifier: 
     }
 }
 
+@Composable
 private fun getColorByTag(tag: ColorTag): Color {
-    /*when (tag) {
-
-    }*/
-    return Color.Unspecified
+    return if (!isSystemInDarkTheme())
+    when (tag) {
+        ColorTag.SUN -> sun
+        ColorTag.MOON -> moon
+        ColorTag.RAIN -> rain
+        ColorTag.CLOUD -> cloud
+    } else when (tag) {
+        ColorTag.SUN -> sunDark
+        ColorTag.MOON -> moonDark
+        ColorTag.RAIN -> rainDark
+        ColorTag.CLOUD -> cloudDark
+    }
 }
 
 private class BuilderImpl: MultiLayerIconBuilderScope {
@@ -88,6 +108,6 @@ class MultilayerIcon(
     }
 
     enum class ColorTag {
-
+        SUN, MOON, RAIN, CLOUD
     }
 }
