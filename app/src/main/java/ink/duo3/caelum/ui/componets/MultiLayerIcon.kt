@@ -19,6 +19,7 @@ interface MultiLayerIconBuilderScope {
     fun layer(resId: Int, color: Color = Color.Unspecified)
     fun layerHarmonize(resId: Int, color: Color)
     fun layerTag(resId: Int, color: ColorTag)
+    fun layer(resId: Int, computeColor: @Composable () -> Color)
 }
 
 @Composable
@@ -29,6 +30,7 @@ fun MultilayerIcon(icon: MultilayerIcon, contentDescription: String?, modifier: 
                 is MultilayerIcon.IconColor.Normal -> it.color.color
                 is MultilayerIcon.IconColor.Tag -> getColorByTag(it.color.tag)
                 is MultilayerIcon.IconColor.Harmonize -> it.color.color.harmonized()
+                is MultilayerIcon.IconColor.Compute -> it.color.f()
             }
 
             Icon(painterResource(it.resId), tint = color, contentDescription = contentDescription)
@@ -54,6 +56,13 @@ private class BuilderImpl: MultiLayerIconBuilderScope {
         layers.add(MultilayerIcon.Layer(resId, MultilayerIcon.IconColor.Tag(color)))
     }
 
+    override fun layer(
+        resId: Int,
+        block: @Composable (() -> Color)
+    ) {
+        layers.add(MultilayerIcon.Layer(resId, MultilayerIcon.IconColor.Compute(block)))
+    }
+
     override fun layerHarmonize(resId: Int, color: Color) {
         layers.add(MultilayerIcon.Layer(resId, MultilayerIcon.IconColor.Harmonize(color)))
     }
@@ -75,6 +84,7 @@ class MultilayerIcon(
         data class Normal(val color: Color) : IconColor()
         data class Harmonize(val color: Color): IconColor()
         data class Tag(val tag: ColorTag) : IconColor()
+        data class Compute(val f: @Composable () -> Color) : IconColor()
     }
 
     enum class ColorTag {
