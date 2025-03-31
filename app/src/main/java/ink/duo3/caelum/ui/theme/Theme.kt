@@ -1,24 +1,19 @@
 package ink.duo3.caelum.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
-import androidx.core.graphics.toColor
-import androidx.core.view.WindowCompat
 import com.google.android.material.color.MaterialColors
-import com.google.android.material.color.utilities.Blend
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -261,7 +256,6 @@ val unspecified_scheme = ColorFamily(
 )
 
 
-
 @Composable
 fun CaelumTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -282,7 +276,7 @@ fun CaelumTheme(
     if (darkTheme) {
         colorScheme = colorScheme
             .copy(
-                surface = colorScheme.surfaceContainer ,
+                surface = colorScheme.surfaceContainer,
                 surfaceContainer = colorScheme.surface
             )
     }
@@ -301,4 +295,13 @@ fun Color.harmonized(): Color {
             this.toArgb(), MaterialTheme.colorScheme.primary.toArgb()
         ).toInt()
     )
+}
+
+@Composable
+fun PreviewThemeWithBg(content: @Composable () -> Unit) {
+    CaelumTheme {
+        Surface(color = MaterialTheme.colorScheme.surfaceContainer) {
+            content()
+        }
+    }
 }
