@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material.icons.extended)
     implementation(libs.material)
     implementation(libs.androidx.graphics.shapes)
     testImplementation(libs.junit)
@@ -62,6 +63,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.material.motion)
+    implementation(libs.haze)
+    implementation(libs.haze.materials)
 
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.android)
