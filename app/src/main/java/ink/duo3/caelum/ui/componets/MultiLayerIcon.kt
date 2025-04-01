@@ -13,7 +13,11 @@ import androidx.compose.ui.util.fastForEach
 import ink.duo3.caelum.ui.componets.MultilayerIcon.ColorTag
 import ink.duo3.caelum.ui.theme.cloud
 import ink.duo3.caelum.ui.theme.cloudDark
+import ink.duo3.caelum.ui.theme.dust
+import ink.duo3.caelum.ui.theme.dustDark
 import ink.duo3.caelum.ui.theme.harmonized
+import ink.duo3.caelum.ui.theme.hot
+import ink.duo3.caelum.ui.theme.hotDark
 import ink.duo3.caelum.ui.theme.moon
 import ink.duo3.caelum.ui.theme.moonDark
 import ink.duo3.caelum.ui.theme.rain
@@ -57,11 +61,15 @@ private fun getColorByTag(tag: ColorTag): Color {
         ColorTag.MOON -> moon
         ColorTag.RAIN -> rain
         ColorTag.CLOUD -> cloud
+        ColorTag.DUST -> dust
+        ColorTag.HOT -> hot
     } else when (tag) {
         ColorTag.SUN -> sunDark
         ColorTag.MOON -> moonDark
         ColorTag.RAIN -> rainDark
         ColorTag.CLOUD -> cloudDark
+        ColorTag.DUST -> dustDark
+        ColorTag.HOT -> hotDark
     }
 }
 
@@ -108,6 +116,6 @@ class MultilayerIcon(
     }
 
     enum class ColorTag {
-        SUN, MOON, RAIN, CLOUD
+        SUN, MOON, RAIN, CLOUD, DUST, HOT
     }
 }
