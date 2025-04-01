@@ -244,6 +244,287 @@ private val highContrastDarkColorScheme = darkColorScheme(
 )
 
 @Immutable
+data class WarningColorScheme(
+    val warningWhite: ColorFamily,
+    val warningBlue: ColorFamily,
+    val warningGreen: ColorFamily,
+    val warningYellow: ColorFamily,
+    val warningOrange: ColorFamily,
+    val warningRed: ColorFamily,
+    val warningBlack: ColorFamily,
+)
+
+val warningLight = WarningColorScheme(
+    warningBlue = ColorFamily(
+        warningBlueLight,
+        onWarningBlueLight,
+        warningBlueContainerLight,
+        onWarningBlueContainerLight,
+    ),
+    warningYellow = ColorFamily(
+        warningYellowLight,
+        onWarningYellowLight,
+        warningYellowContainerLight,
+        onWarningYellowContainerLight,
+    ),
+    warningOrange = ColorFamily(
+        warningOrangeLight,
+        onWarningOrangeLight,
+        warningOrangeContainerLight,
+        onWarningOrangeContainerLight,
+    ),
+    warningRed = ColorFamily(
+        warningRedLight,
+        onWarningRedLight,
+        warningRedContainerLight,
+        onWarningRedContainerLight,
+    ),
+    warningGreen = ColorFamily(
+        warningGreenLight,
+        onWarningGreenLight,
+        warningGreenContainerLight,
+        onWarningGreenContainerLight,
+    ),
+    warningWhite = ColorFamily(
+        warningWhiteLight,
+        onWarningWhiteLight,
+        warningWhiteContainerLight,
+        onWarningWhiteContainerLight,
+    ),
+    warningBlack = ColorFamily(
+        warningBlackLight,
+        onWarningBlackLight,
+        warningBlackContainerLight,
+        onWarningBlackContainerLight,
+    ),
+)
+
+val warningDark = WarningColorScheme(
+    warningBlue = ColorFamily(
+        warningBlueDark,
+        onWarningBlueDark,
+        warningBlueContainerDark,
+        onWarningBlueContainerDark,
+    ),
+    warningYellow = ColorFamily(
+        warningYellowDark,
+        onWarningYellowDark,
+        warningYellowContainerDark,
+        onWarningYellowContainerDark,
+    ),
+    warningOrange = ColorFamily(
+        warningOrangeDark,
+        onWarningOrangeDark,
+        warningOrangeContainerDark,
+        onWarningOrangeContainerDark,
+    ),
+    warningRed = ColorFamily(
+        warningRedDark,
+        onWarningRedDark,
+        warningRedContainerDark,
+        onWarningRedContainerDark,
+    ),
+    warningGreen = ColorFamily(
+        warningGreenDark,
+        onWarningGreenDark,
+        warningGreenContainerDark,
+        onWarningGreenContainerDark,
+    ),
+    warningWhite = ColorFamily(
+        warningWhiteDark,
+        onWarningWhiteDark,
+        warningWhiteContainerDark,
+        onWarningWhiteContainerDark,
+    ),
+    warningBlack = ColorFamily(
+        warningBlackDark,
+        onWarningBlackDark,
+        warningBlackContainerDark,
+        onWarningBlackContainerDark,
+    ),
+)
+
+val warningLightMediumContrast = WarningColorScheme(
+    warningBlue = ColorFamily(
+        warningBlueLightMediumContrast,
+        onWarningBlueLightMediumContrast,
+        warningBlueContainerLightMediumContrast,
+        onWarningBlueContainerLightMediumContrast,
+    ),
+    warningYellow = ColorFamily(
+        warningYellowLightMediumContrast,
+        onWarningYellowLightMediumContrast,
+        warningYellowContainerLightMediumContrast,
+        onWarningYellowContainerLightMediumContrast,
+    ),
+    warningOrange = ColorFamily(
+        warningOrangeLightMediumContrast,
+        onWarningOrangeLightMediumContrast,
+        warningOrangeContainerLightMediumContrast,
+        onWarningOrangeContainerLightMediumContrast,
+    ),
+    warningRed = ColorFamily(
+        warningRedLightMediumContrast,
+        onWarningRedLightMediumContrast,
+        warningRedContainerLightMediumContrast,
+        onWarningRedContainerLightMediumContrast,
+    ),
+    warningGreen = ColorFamily(
+        warningGreenLightMediumContrast,
+        onWarningGreenLightMediumContrast,
+        warningGreenContainerLightMediumContrast,
+        onWarningGreenContainerLightMediumContrast,
+    ),
+    warningWhite = ColorFamily(
+        warningWhiteLightMediumContrast,
+        onWarningWhiteLightMediumContrast,
+        warningWhiteContainerLightMediumContrast,
+        onWarningWhiteContainerLightMediumContrast,
+    ),
+    warningBlack = ColorFamily(
+        warningBlackLightMediumContrast,
+        onWarningBlackLightMediumContrast,
+        warningBlackContainerLightMediumContrast,
+        onWarningBlackContainerLightMediumContrast,
+    ),
+)
+
+val warningLightHighContrast = WarningColorScheme(
+    warningBlue = ColorFamily(
+        warningBlueLightHighContrast,
+        onWarningBlueLightHighContrast,
+        warningBlueContainerLightHighContrast,
+        onWarningBlueContainerLightHighContrast,
+    ),
+    warningYellow = ColorFamily(
+        warningYellowLightHighContrast,
+        onWarningYellowLightHighContrast,
+        warningYellowContainerLightHighContrast,
+        onWarningYellowContainerLightHighContrast,
+    ),
+    warningOrange = ColorFamily(
+        warningOrangeLightHighContrast,
+        onWarningOrangeLightHighContrast,
+        warningOrangeContainerLightHighContrast,
+        onWarningOrangeContainerLightHighContrast,
+    ),
+    warningRed = ColorFamily(
+        warningRedLightHighContrast,
+        onWarningRedLightHighContrast,
+        warningRedContainerLightHighContrast,
+        onWarningRedContainerLightHighContrast,
+    ),
+    warningGreen = ColorFamily(
+        warningGreenLightHighContrast,
+        onWarningGreenLightHighContrast,
+        warningGreenContainerLightHighContrast,
+        onWarningGreenContainerLightHighContrast,
+    ),
+    warningWhite = ColorFamily(
+        warningWhiteLightHighContrast,
+        onWarningWhiteLightHighContrast,
+        warningWhiteContainerLightHighContrast,
+        onWarningWhiteContainerLightHighContrast,
+    ),
+    warningBlack = ColorFamily(
+        warningBlackLightHighContrast,
+        onWarningBlackLightHighContrast,
+        warningBlackContainerLightHighContrast,
+        onWarningBlackContainerLightHighContrast,
+    ),
+)
+
+val warningDarkMediumContrast = WarningColorScheme(
+    warningBlue = ColorFamily(
+        warningBlueDarkMediumContrast,
+        onWarningBlueDarkMediumContrast,
+        warningBlueContainerDarkMediumContrast,
+        onWarningBlueContainerDarkMediumContrast,
+    ),
+    warningYellow = ColorFamily(
+        warningYellowDarkMediumContrast,
+        onWarningYellowDarkMediumContrast,
+        warningYellowContainerDarkMediumContrast,
+        onWarningYellowContainerDarkMediumContrast,
+    ),
+    warningOrange = ColorFamily(
+        warningOrangeDarkMediumContrast,
+        onWarningOrangeDarkMediumContrast,
+        warningOrangeContainerDarkMediumContrast,
+        onWarningOrangeContainerDarkMediumContrast,
+    ),
+    warningRed = ColorFamily(
+        warningRedDarkMediumContrast,
+        onWarningRedDarkMediumContrast,
+        warningRedContainerDarkMediumContrast,
+        onWarningRedContainerDarkMediumContrast,
+    ),
+    warningGreen = ColorFamily(
+        warningGreenDarkMediumContrast,
+        onWarningGreenDarkMediumContrast,
+        warningGreenContainerDarkMediumContrast,
+        onWarningGreenContainerDarkMediumContrast,
+    ),
+    warningWhite = ColorFamily(
+        warningWhiteDarkMediumContrast,
+        onWarningWhiteDarkMediumContrast,
+        warningWhiteContainerDarkMediumContrast,
+        onWarningWhiteContainerDarkMediumContrast,
+    ),
+    warningBlack = ColorFamily(
+        warningBlackDarkMediumContrast,
+        onWarningBlackDarkMediumContrast,
+        warningBlackContainerDarkMediumContrast,
+        onWarningBlackContainerDarkMediumContrast,
+    ),
+)
+
+val warningDarkHighContrast = WarningColorScheme(
+    warningBlue = ColorFamily(
+        warningBlueDarkHighContrast,
+        onWarningBlueDarkHighContrast,
+        warningBlueContainerDarkHighContrast,
+        onWarningBlueContainerDarkHighContrast,
+    ),
+    warningYellow = ColorFamily(
+        warningYellowDarkHighContrast,
+        onWarningYellowDarkHighContrast,
+        warningYellowContainerDarkHighContrast,
+        onWarningYellowContainerDarkHighContrast,
+    ),
+    warningOrange = ColorFamily(
+        warningOrangeDarkHighContrast,
+        onWarningOrangeDarkHighContrast,
+        warningOrangeContainerDarkHighContrast,
+        onWarningOrangeContainerDarkHighContrast,
+    ),
+    warningRed = ColorFamily(
+        warningRedDarkHighContrast,
+        onWarningRedDarkHighContrast,
+        warningRedContainerDarkHighContrast,
+        onWarningRedContainerDarkHighContrast,
+    ),
+    warningGreen = ColorFamily(
+        warningGreenDarkHighContrast,
+        onWarningGreenDarkHighContrast,
+        warningGreenContainerDarkHighContrast,
+        onWarningGreenContainerDarkHighContrast,
+    ),
+    warningWhite = ColorFamily(
+        warningWhiteDarkHighContrast,
+        onWarningWhiteDarkHighContrast,
+        warningWhiteContainerDarkHighContrast,
+        onWarningWhiteContainerDarkHighContrast,
+    ),
+    warningBlack = ColorFamily(
+        warningBlackDarkHighContrast,
+        onWarningBlackDarkHighContrast,
+        warningBlackContainerDarkHighContrast,
+        onWarningBlackContainerDarkHighContrast,
+    ),
+)
+
+@Immutable
 data class ColorFamily(
     val color: Color,
     val onColor: Color,
