@@ -14,15 +14,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeSource
+import ink.duo3.caelum.R
 import ink.duo3.caelum.ui.LocalHazeState
 import ink.duo3.caelum.ui.componets.AirQualityCard
 import ink.duo3.caelum.ui.componets.Banner
@@ -126,6 +130,30 @@ fun HomeScreen() {
                     MultilayerIcon(WeatherIcons.Hot, "")
                     MultilayerIcon(WeatherIcons.Cold, "")
                     MultilayerIcon(WeatherIcons.Unknown, "")
+                }
+            }
+
+            Spacer(Modifier.height(16.dp))
+
+            InfoCard {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Icon(painterResource(R.drawable.warning_typhoon_24dp), "", Modifier, MaterialTheme.colorScheme.onSurface)
+                    Icon(painterResource(R.drawable.warning_tornado_24dp), "", Modifier, MaterialTheme.colorScheme.onSurface)
+                    Icon(painterResource(R.drawable.warning_rainstorm_24dp), "", Modifier, MaterialTheme.colorScheme.onSurface)
+                    Icon(painterResource(R.drawable.warning_snow_storm_24dp), "", Modifier, MaterialTheme.colorScheme.onSurface)
+                    Icon(painterResource(R.drawable.warning_cold_wave_24dp), "", Modifier, MaterialTheme.colorScheme.onSurface)
+                    Icon(painterResource(R.drawable.warning_gale_24dp), "", Modifier, MaterialTheme.colorScheme.onSurface)
+                    Icon(painterResource(R.drawable.warning_heat_wave_24dp), "", Modifier, MaterialTheme.colorScheme.onSurface)
+                    Icon(painterResource(R.drawable.warning_downburst_24dp), "", Modifier, MaterialTheme.colorScheme.onSurface)
+                    Icon(painterResource(R.drawable.warning_avalanche_24dp), "", Modifier, MaterialTheme.colorScheme.onSurface)
+                    Icon(painterResource(R.drawable.warning_lightning_24dp), "", Modifier, MaterialTheme.colorScheme.onSurface)
+                    Icon(painterResource(R.drawable.warning_hail_24dp), "", Modifier, MaterialTheme.colorScheme.onSurface)
+                    Icon(painterResource(R.drawable.warning_frost_24dp), "", Modifier, MaterialTheme.colorScheme.onSurface)
+                    Icon(painterResource(R.drawable.warning_heavy_fog_24dp), "", Modifier, MaterialTheme.colorScheme.onSurface)
+
                 }
             }
         }
