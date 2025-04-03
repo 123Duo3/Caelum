@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.carousel.CarouselDefaults
 import androidx.compose.material3.carousel.HorizontalUncontainedCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -39,10 +40,15 @@ import ink.duo3.caelum.ui.theme.PreviewThemeWithBg
 fun BottomBar(
     modifier: Modifier = Modifier
 ) {
-    Surface(modifier, color = MaterialTheme.colorScheme.surfaceDim.copy(0.3f)) {
+    Surface(modifier) {
         Row(
             modifier = Modifier
-                .hazeEffect(LocalHazeState.current, HazeMaterials.ultraThin(MaterialTheme.colorScheme.surfaceDim.copy(0.3f)))
+                .hazeEffect(
+                    LocalHazeState.current,
+                    HazeMaterials
+                        .ultraThin(MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp))
+                        .copy(blurRadius = 32.dp)
+                )
                 .navigationBarsPadding()
                 .height(80.dp),
             verticalAlignment = Alignment.CenterVertically
