@@ -22,20 +22,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.carousel.CarouselDefaults
 import androidx.compose.material3.carousel.HorizontalUncontainedCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.chrisbanes.haze.ExperimentalHazeApi
+import dev.chrisbanes.haze.HazeInputScale
 import dev.chrisbanes.haze.hazeEffect
-import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
-import dev.chrisbanes.haze.materials.HazeMaterials
+import dev.chrisbanes.haze.hazeSource
 import ink.duo3.caelum.ui.LocalHazeState
+import ink.duo3.caelum.ui.theme.CaelumHazeStyle
 import ink.duo3.caelum.ui.theme.PreviewThemeWithBg
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeApi::class)
 @Composable
 fun BottomBar(
     modifier: Modifier = Modifier
@@ -43,12 +44,7 @@ fun BottomBar(
     Surface(modifier) {
         Row(
             modifier = Modifier
-                .hazeEffect(
-                    LocalHazeState.current,
-                    HazeMaterials
-                        .ultraThin(MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp))
-                        .copy(blurRadius = 32.dp)
-                )
+                .hazeEffect(LocalHazeState.current, CaelumHazeStyle()){ inputScale = HazeInputScale.Fixed(0.5f) }
                 .navigationBarsPadding()
                 .height(80.dp),
             verticalAlignment = Alignment.CenterVertically
