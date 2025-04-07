@@ -1,9 +1,33 @@
+import org.gradle.kotlin.dsl.register
+import java.io.ByteArrayOutputStream
+import java.nio.charset.Charset
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
+}
+
+fun getVersionCode(): Int {
+    val output = ByteArrayOutputStream()
+    exec {
+        commandLine("git", "rev-list", "--count", "--first-parent", "HEAD")
+        standardOutput = output
+    }
+    return output.toByteArray().toString(Charset.defaultCharset()).trim().toInt()
+}
+
+fun getVersionName(): String {
+    val output = ByteArrayOutputStream()
+    exec {
+        commandLine("git", "describe", "--tags", "--match", "v[0-9]*")
+        standardOutput = output
+    }
+    return output.toByteArray().toString(Charset.defaultCharset())
+        .trim()
+        .trimStart('v') // 去掉 v 前缀
 }
 
 android {
@@ -14,8 +38,8 @@ android {
         applicationId = "ink.duo3.caelum"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = getVersionCode()
+        versionName = getVersionName()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
