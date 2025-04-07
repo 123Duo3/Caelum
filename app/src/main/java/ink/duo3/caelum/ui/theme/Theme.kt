@@ -611,10 +611,29 @@ fun Color.harmonized(): Color {
 }
 
 @Composable
-fun PreviewThemeWithBg(content: @Composable () -> Unit) {
-    CaelumTheme {
-        Surface(color = MaterialTheme.colorScheme.surfaceContainer) {
-            content()
+fun PreviewTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    MaterialTheme(
+        colorScheme = if (darkTheme) darkScheme else lightScheme,
+        typography = Typography,
+        content = content
+    )
+}
+
+@Composable
+fun PreviewThemeWithBg(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    MaterialTheme(
+        colorScheme = if (darkTheme) darkScheme else lightScheme,
+        typography = Typography,
+        content = {
+            Surface(color = MaterialTheme.colorScheme.surfaceContainer) {
+                content()
+            }
         }
-    }
+    )
 }

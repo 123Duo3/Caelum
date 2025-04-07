@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ink.duo3.caelum.R
+import ink.duo3.caelum.ui.theme.PreviewTheme
 
 @Composable
 fun InfoCard(
@@ -114,13 +115,15 @@ fun InfoCard(
 @Preview
 @Composable
 fun InfoCardPreview() {
-    InfoCard(
-        icon = painterResource(R.drawable.ic_arrow_upward_20dp),
-        category = "空气质量",
-        title = "122",
-        titleAlt = "不适于敏感人群",
-        subtitle = "与昨天同时间类似。"
-    ) {
-        Spacer(Modifier.height(128.dp))
+    PreviewTheme {
+        InfoCard(
+            icon = painterResource(R.drawable.ic_arrow_upward_20dp),
+            category = "空气质量",
+            title = "122",
+            titleAlt = "不适于敏感人群",
+            subtitle = "与昨天同时间类似。"
+        ) {
+            Spacer(Modifier.height(128.dp))
+        }
     }
 }

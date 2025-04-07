@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ink.duo3.caelum.R
 import ink.duo3.caelum.ui.theme.CaelumTheme
+import ink.duo3.caelum.ui.theme.PreviewTheme
 import ink.duo3.caelum.ui.theme.aqi1
 import ink.duo3.caelum.ui.theme.aqi2
 import ink.duo3.caelum.ui.theme.aqi3
@@ -188,7 +189,7 @@ private fun DrawScope.drawNotchedRect(
 @Preview
 @Composable
 private fun Preview() {
-    CaelumTheme {
+    PreviewTheme {
         val infiniteTransition = rememberInfiniteTransition()
         val anim = infiniteTransition.animateFloat(
             0f, 600f,

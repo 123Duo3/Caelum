@@ -23,6 +23,8 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ink.duo3.caelum.ui.theme.CaelumTheme
+import ink.duo3.caelum.ui.theme.PreviewTheme
+import ink.duo3.caelum.ui.theme.PreviewThemeWithBg
 import ink.duo3.caelum.ui.theme.harmonized
 import ink.duo3.caelum.ui.theme.rain
 import ink.duo3.caelum.ui.theme.temperature0
@@ -208,7 +210,7 @@ private fun Chart(modifier: Modifier) {
 @Preview
 @Composable
 private fun Preview() {
-    CaelumTheme {
+    PreviewTheme {
         PrecipitationCard()
     }
 }
