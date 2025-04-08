@@ -1,6 +1,6 @@
-import org.gradle.kotlin.dsl.register
 import java.io.ByteArrayOutputStream
 import java.nio.charset.Charset
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -51,6 +51,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            val props = Properties().apply { load(rootProject.file("local.properties").inputStream()) }
+            buildConfigField("String", "API_BASE_URL", props.getProperty("app.apiBaseUrl.prod"))
+        }
+        debug {
+            val props = Properties().apply { load(rootProject.file("local.properties").inputStream()) }
+            buildConfigField("String", "API_BASE_URL", props.getProperty("app.apiBaseUrl.dev"))
         }
     }
     compileOptions {
@@ -62,6 +68,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -86,6 +93,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    implementation(libs.accompanist.permissions)
     implementation(libs.material.motion)
     implementation(libs.haze)
     implementation(libs.haze.materials)
@@ -108,6 +116,7 @@ dependencies {
     implementation(libs.room.ktx)
 
     implementation(libs.kotlinx.coroutines.android)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
 
 ksp {
