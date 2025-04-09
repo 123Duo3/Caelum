@@ -242,7 +242,13 @@ fun HomeScreen(vm: MainViewModel = koinViewModel()) {
         CompositionLocalProvider(LocalHazeState provides hazeState) {
             BottomBar(
                 modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth(),
-                locations = vm.location.value?.let { listOf(LocationItem(it.name, it.cityId)) } ?: listOf(LocationItem("获取中", "")),
+                locations = vm.location.value?.let { listOf(LocationItem(it.name, it.cityId)) } ?: listOf(
+                    when(vm.locationStatus.value) {
+                        MainViewModel.GpsStatus.Idle, MainViewModel.GpsStatus.Pending, MainViewModel.GpsStatus.Ok -> LocationItem("定位中", "")
+                        MainViewModel.GpsStatus.Error -> LocationItem("定位失败", "")
+                        MainViewModel.GpsStatus.PermissionDenied -> LocationItem("权限被拒", "")
+                    }
+                ), // TODO: Show lists when location list is implemented
                 selected = 0,
                 onSelectionChange = {}
             )

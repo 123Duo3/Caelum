@@ -1,5 +1,6 @@
 package ink.duo3.caelum.ui.componets
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -62,8 +63,31 @@ fun BottomBar(
                 Icon(imageVector = Icons.Outlined.Map, contentDescription = "选择地区")
             }
 
-            val state = rememberCarouselState { locations.size }
+            Box(Modifier.weight(1f).fillMaxHeight().padding(16.dp), Alignment.Center) {
+                Surface(
+                    color = MaterialTheme.colorScheme.secondary.copy(0.10f),
+                    onClick = { onSelectionChange(0) },
+                    shape = MaterialTheme.shapes.medium
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(start = 16.dp, end = 24.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(Icons.Default.NearMe, "Near Me")
+                        Spacer(Modifier.width(6.dp))
+                        Text(
+                            locations[0].name,
+                            maxLines = 1,
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                    }
+                }
+            }
 
+
+            /*val state = rememberCarouselState { locations.size }
             HorizontalUncontainedCarousel(
                 modifier = Modifier
                     .weight(1f)
@@ -98,7 +122,7 @@ fun BottomBar(
                         )
                     }
                 }
-            }
+            }*/
 
             IconButton(onClick = {}) {
                 Icon(imageVector = Icons.AutoMirrored.Default.List, contentDescription = "菜单")
