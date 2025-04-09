@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -24,12 +23,21 @@ import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ink.duo3.caelum.R
+import ink.duo3.caelum.ui.theme.PreviewTheme
 
 @Composable
-fun Banner() {
+fun Banner(
+    temperature: String,
+    modifier: Modifier = Modifier,
+    text: String,
+    feelsLike: String,
+    maxTemp: String,
+    minTemp: String
+) {
     val subtitleSmall = TextStyle(
         fontSize = 16.sp,
         lineHeight = 20.sp,
@@ -44,7 +52,9 @@ fun Banner() {
     )
 
     Box(
-        Modifier.height(360.dp).fillMaxWidth(),
+        modifier
+            .height(360.dp)
+            .fillMaxWidth(),
         contentAlignment = Alignment.BottomStart
     ) {
         Surface(
@@ -70,7 +80,7 @@ fun Banner() {
                         modifier = Modifier.height(81.dp).offset(y = 8.dp)
                     ) {
                         Text(
-                            text = "24°",
+                            text = "$temperature°",
                             modifier = Modifier.padding(end = 8.dp),
                             style = MaterialTheme.typography.displayLarge
                                 .copy(
@@ -85,7 +95,7 @@ fun Banner() {
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "小雨",
+                            text = text,
                             modifier = Modifier,
                             style = MaterialTheme.typography.displayLarge
                                 .copy(
@@ -112,7 +122,7 @@ fun Banner() {
                             style = subtitleSmall
                         )
                         Text(
-                            text = "26°",
+                            text = "$feelsLike°",
                             modifier = Modifier.alignByBaseline().padding(end = 8.dp),
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                             style = subtitleSmall
@@ -124,7 +134,7 @@ fun Banner() {
                             tint = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "8°",
+                            text = "$minTemp°",
                             modifier = Modifier.alignByBaseline().padding(end = 8.dp),
                             color = MaterialTheme.colorScheme.onSurface,
                             style = subtitleSmall
@@ -136,7 +146,7 @@ fun Banner() {
                             tint = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "26°",
+                            text = "$maxTemp°",
                             modifier = Modifier.alignByBaseline(),
                             color = MaterialTheme.colorScheme.onSurface,
                             style = subtitleSmall
@@ -150,5 +160,13 @@ fun Banner() {
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    PreviewTheme {
+        Banner("24", text = "小雨", feelsLike = "26", maxTemp = "26", minTemp = "8")
     }
 }

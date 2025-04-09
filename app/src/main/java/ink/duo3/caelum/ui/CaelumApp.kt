@@ -14,12 +14,12 @@ val LocalHazeState = compositionLocalOf { HazeState() }
 
 @Composable
 fun CaelumApp() {
-    LocationProvider()
-
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.surfaceContainer
     ) {
         HomeScreen()
     }
+
+    LocationProvider()
 }

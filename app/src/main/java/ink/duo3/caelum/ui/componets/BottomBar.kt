@@ -31,20 +31,29 @@ import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.ExperimentalHazeApi
 import dev.chrisbanes.haze.HazeInputScale
 import dev.chrisbanes.haze.hazeEffect
-import dev.chrisbanes.haze.hazeSource
 import ink.duo3.caelum.ui.LocalHazeState
 import ink.duo3.caelum.ui.theme.CaelumHazeStyle
 import ink.duo3.caelum.ui.theme.PreviewThemeWithBg
 
+data class LocationItem(
+    val name: String,
+    val id: String
+)
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeApi::class)
 @Composable
 fun BottomBar(
+    locations: List<LocationItem>,
+    selected: Int,
+    onSelectionChange: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(modifier) {
         Row(
             modifier = Modifier
-                .hazeEffect(LocalHazeState.current, CaelumHazeStyle()){ inputScale = HazeInputScale.Fixed(0.5f) }
+                .hazeEffect(LocalHazeState.current, CaelumHazeStyle()) {
+                    inputScale = HazeInputScale.Fixed(0.5f)
+                }
                 .navigationBarsPadding()
                 .height(80.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -53,25 +62,40 @@ fun BottomBar(
                 Icon(imageVector = Icons.Outlined.Map, contentDescription = "选择地区")
             }
 
-            val items = remember { listOf("地区1", "地区2", "地区3", "地区4", "地区5", "地区6", "地区7", "地区7") }
-            val state = rememberCarouselState { items.size }
+            val state = rememberCarouselState { locations.size }
 
             HorizontalUncontainedCarousel(
-                modifier = Modifier.weight(1f).fillMaxHeight(),
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight(),
                 state = state,
                 itemWidth = 100.dp,
                 itemSpacing = 8.dp,
                 contentPadding = PaddingValues(16.dp),
                 flingBehavior = CarouselDefaults.singleAdvanceFlingBehavior(state)
-            ) {
+            ) { index ->
                 Surface(
                     modifier = Modifier.maskClip(MaterialTheme.shapes.medium),
                     color = MaterialTheme.colorScheme.secondary.copy(0.10f),
+                    onClick = {
+                        onSelectionChange(index)
+                    }
                 ) {
-                    Row(modifier = Modifier.fillMaxHeight().padding(start = 16.dp, end = 24.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.NearMe, "Near Me")
-                        Spacer(Modifier.width(6.dp))
-                        Text(items[it], maxLines = 1, style = MaterialTheme.typography.titleSmall)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(start = 16.dp, end = 24.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        if (selected == index) {
+                            Icon(Icons.Default.NearMe, "Near Me")
+                            Spacer(Modifier.width(6.dp))
+                        }
+                        Text(
+                            locations[index].name,
+                            maxLines = 1,
+                            style = MaterialTheme.typography.titleSmall
+                        )
                     }
                 }
             }
@@ -87,6 +111,12 @@ fun BottomBar(
 @Composable
 private fun Preview() {
     PreviewThemeWithBg {
-        BottomBar(Modifier.fillMaxWidth())
+        val locations = remember { (1..10).map { LocationItem("地区$it", it.toString()) } }
+        BottomBar(
+            locations = locations,
+            selected = 0,
+            onSelectionChange = { },
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
