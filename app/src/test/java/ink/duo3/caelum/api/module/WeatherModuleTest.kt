@@ -1,11 +1,11 @@
-package ink.duo3.caelum.api
+package ink.duo3.caelum.api.module
 
+import ink.duo3.caelum.api.CaelumApiClientTest
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-
 class WeatherModuleTest {
-    private val client = CaelumApiClientTest.getTestClient()
+    private val client = CaelumApiClientTest.Companion.getTestClient()
 
     @Test
     fun testGetLocations() = runTest {

@@ -1,6 +1,7 @@
 package ink.duo3.caelum.api
 
 import ink.duo3.caelum.api.exception.CaulumApiClientException
+import ink.duo3.caelum.api.module.WeatherModule
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
