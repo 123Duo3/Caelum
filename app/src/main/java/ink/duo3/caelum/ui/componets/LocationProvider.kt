@@ -56,7 +56,7 @@ fun LocationProvider(viewModel: MainViewModel = koinViewModel()) {
             val signal = CancellationSignal()
             viewModel.updateLocationStatus(MainViewModel.GpsStatus.Pending)
 
-            Log.d(TAG, "Get current location")
+            Log.d(TAG, "Get current location from: $provider")
             LocationManagerCompat.getCurrentLocation(
                 locationManager, provider, signal, executor
             ) { location ->
@@ -65,8 +65,18 @@ fun LocationProvider(viewModel: MainViewModel = koinViewModel()) {
                     viewModel.updateLocationStatus(MainViewModel.GpsStatus.Ok)
                     viewModel.updateLocation(location.latitude, location.longitude, provider)
                 } else {
-                    Log.w(TAG, "Failed to get location")
-                    viewModel.updateLocationStatus(MainViewModel.GpsStatus.Error)
+                    LocationManagerCompat.getCurrentLocation(
+                        locationManager, LocationManager.PASSIVE_PROVIDER, signal, executor
+                    ) { location ->
+                        if (location != null) {
+                            Log.d(TAG, "Location: $location")
+                            viewModel.updateLocationStatus(MainViewModel.GpsStatus.Ok)
+                            viewModel.updateLocation(location.latitude, location.longitude, "passive")
+                        } else {
+                            Log.w(TAG, "Failed to get location")
+                            viewModel.updateLocationStatus(MainViewModel.GpsStatus.Error)
+                        }
+                    }
                 }
             }
         }
