@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
@@ -32,7 +33,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -55,7 +55,7 @@ fun Banner(
             .fillMaxWidth(),
         contentAlignment = Alignment.BottomStart
     ) {
-        val size = remember { mutableStateOf(IntSize.Zero) }
+        val size = remember { mutableStateOf(Size.Unspecified) }
 
         Surface(
             color = MaterialTheme.colorScheme.primary,
@@ -64,8 +64,10 @@ fun Banner(
         ) { }
 
         Column(
-            Modifier.padding(end = 24.dp)
-                .onGloballyPositioned { size.value = it.size }
+            Modifier.onGloballyPositioned { size.value = Size(it.size.width.toFloat(), it.size.height.toFloat()) }
+                // This is a workaround because the shape is only available after the onGloballyPositioned is called (the second frame)
+                .alpha(if (size.value == Size.Unspecified) 0f else 1f)
+                .padding(end = 24.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -156,12 +158,14 @@ fun Banner(
     }
 }
 
-private class BannerShape(val cutoutSize: IntSize) : Shape {
+private class BannerShape(val cutoutSize: Size) : Shape {
     override fun createOutline(
         size: Size,
         layoutDirection: LayoutDirection,
         density: Density
     ): Outline {
+        if (cutoutSize == Size.Unspecified) return Outline.Generic(Path())
+
         val cornerRadiusPx = with(density) { 24.dp.toPx() }
         val cornerSizePx = with(density) { 48.dp.toPx() }
         val cornerSize = Size(cornerSizePx, cornerSizePx)
@@ -196,10 +200,10 @@ private class BannerShape(val cutoutSize: IntSize) : Shape {
                 forceMoveTo = false
             )
 
-            lineTo(width - cutoutSize.width + cornerRadiusPx, height)
+            lineTo(cutoutSize.width.toFloat(), height)
             arcTo(
                 rect = Rect(
-                    offset = Offset(width - cutoutSize.width, height - cornerSizePx),
+                    offset = Offset(cutoutSize.width.toFloat(), height - cornerSizePx),
                     size = cornerSize
                 ),
                 startAngleDegrees = 90f,
@@ -207,11 +211,11 @@ private class BannerShape(val cutoutSize: IntSize) : Shape {
                 forceMoveTo = false
             )
 
-            lineTo(width - cutoutSize.width, height - cutoutSize.height + cornerRadiusPx)
+            lineTo(cutoutSize.width.toFloat(), height - cutoutSize.height + cornerRadiusPx)
             arcTo(
                 rect = Rect(
                     offset = Offset(
-                        width - cutoutSize.width - cornerSizePx,
+                        cutoutSize.width - cornerSizePx,
                         height - cutoutSize.height
                     ),
                     size = cornerSize
