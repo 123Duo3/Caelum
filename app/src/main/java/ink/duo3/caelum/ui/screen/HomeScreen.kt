@@ -244,7 +244,8 @@ fun HomeScreen(vm: MainViewModel = koinViewModel()) {
                 modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth(),
                 locations = vm.location.value?.let { listOf(LocationItem(it.name, it.cityId)) } ?: listOf(
                     when(vm.locationStatus.value) {
-                        MainViewModel.GpsStatus.Idle, MainViewModel.GpsStatus.Pending, MainViewModel.GpsStatus.Ok -> LocationItem("定位中", "")
+                        MainViewModel.GpsStatus.Idle, MainViewModel.GpsStatus.Pending -> LocationItem("定位中", "")
+                        MainViewModel.GpsStatus.Ok -> LocationItem("请求中", "")
                         MainViewModel.GpsStatus.Error -> LocationItem("定位失败", "")
                         MainViewModel.GpsStatus.PermissionDenied -> LocationItem("权限被拒", "")
                     }
