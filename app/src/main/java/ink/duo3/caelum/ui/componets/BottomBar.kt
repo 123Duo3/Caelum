@@ -35,6 +35,7 @@ import dev.chrisbanes.haze.hazeEffect
 import ink.duo3.caelum.ui.LocalHazeState
 import ink.duo3.caelum.ui.theme.CaelumHazeStyle
 import ink.duo3.caelum.ui.theme.PreviewThemeWithBg
+import ink.duo3.caelum.viewmodel.MainViewModel
 
 data class LocationItem(
     val name: String,
@@ -44,6 +45,7 @@ data class LocationItem(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeApi::class)
 @Composable
 fun BottomBar(
+    gpsStatus: MainViewModel.GpsStatus,
     locations: List<LocationItem>,
     selected: Int,
     onSelectionChange: (Int) -> Unit,
@@ -137,6 +139,7 @@ private fun Preview() {
     PreviewThemeWithBg {
         val locations = remember { (1..10).map { LocationItem("地区$it", it.toString()) } }
         BottomBar(
+            gpsStatus = MainViewModel.GpsStatus.Ok,
             locations = locations,
             selected = 0,
             onSelectionChange = { },

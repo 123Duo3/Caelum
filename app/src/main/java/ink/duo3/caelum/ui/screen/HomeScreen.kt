@@ -38,7 +38,6 @@ import ink.duo3.caelum.ui.componets.PrecipitationCard
 import ink.duo3.caelum.ui.componets.WeatherIcons
 import ink.duo3.caelum.ui.theme.PreviewThemeWithBg
 import ink.duo3.caelum.viewmodel.MainViewModel
-import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -60,8 +59,8 @@ fun HomeScreen(vm: MainViewModel = koinViewModel()) {
                     weather.temp,
                     text = weather.text,
                     feelsLike = weather.feelsLike,
-                    maxTemp = "Unknown",
-                    minTemp = "Unknown"
+                    maxTemp = "--",
+                    minTemp = "--"
                 )
 
                 Spacer(Modifier.height(48.dp))
@@ -238,17 +237,24 @@ fun HomeScreen(vm: MainViewModel = koinViewModel()) {
             }
         }
 
+        if (vm.locationStatus.value.gpsStatus == MainViewModel.GpsStatus.PermissionDenied) {
+            // TODO: Show message to user
+        }
 
         CompositionLocalProvider(LocalHazeState provides hazeState) {
             BottomBar(
                 modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth(),
-                locations = vm.location.value?.let { listOf(LocationItem(it.name, it.cityId)) } ?: listOf(
-                    when(vm.locationStatus.value) {
+                gpsStatus = vm.locationStatus.value.gpsStatus,
+                locations = vm.currentLocation.value?.let { listOf(LocationItem(it.name, it.cityId)) } ?: listOf(
+                    LocationItem("定位中", "")
+                    /*when {
+                        vm.locationStatus.value.a() -> {}
+                        vm.locationStatus.value.anyPending() -> {}
                         MainViewModel.GpsStatus.Idle, MainViewModel.GpsStatus.Pending -> LocationItem("定位中", "")
                         MainViewModel.GpsStatus.Ok -> LocationItem("请求中", "")
                         MainViewModel.GpsStatus.Error -> LocationItem("定位失败", "")
                         MainViewModel.GpsStatus.PermissionDenied -> LocationItem("权限被拒", "")
-                    }
+                    }*/
                 ), // TODO: Show lists when location list is implemented
                 selected = 0,
                 onSelectionChange = {}
