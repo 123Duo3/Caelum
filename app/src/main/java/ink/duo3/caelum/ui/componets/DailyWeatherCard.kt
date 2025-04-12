@@ -51,7 +51,7 @@ fun DailyWeatherCard(modifier: Modifier, data: List<DailyWeatherInfo>) {
         icon = rememberVectorPainter(Icons.Default.CalendarMonth),
         category = "10 日天气预报",
     ) {
-        Column(Modifier.padding(vertical = 12.dp, horizontal = 10.dp)) {
+        Column(Modifier.padding(start = 10.dp, end = 10.dp, top = 12.dp, bottom = 12.dp)) {
             val maxTemp = remember(data) { data.maxOf { it.tempMax } }
             val minTemp = remember(data) { data.minOf { it.tempMin } }
 
@@ -149,7 +149,7 @@ private fun TempIndicator(
     currentMax: Int,
     modifier: Modifier
 ) {
-    val trackColor = MaterialTheme.colorScheme.surfaceContainer
+    val trackColor = MaterialTheme.colorScheme.primary.copy(0.08f)
     val indicator = Brush.horizontalGradient(
         0f to Color(0xFF98D6DF),
         0.8f to Color(0xFFE6B62F),

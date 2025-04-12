@@ -1,12 +1,14 @@
 package ink.duo3.caelum.ui.componets
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -69,10 +71,15 @@ fun InfoCard(
             .background(MaterialTheme.colorScheme.surface)
     ) {
         Row(
-            modifier = Modifier.padding(16.dp, 12.dp),
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(icon, "", tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+            Icon(
+                modifier = Modifier.size(20.dp),
+                painter = icon,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+            )
             Text(
                 text = category,
                 style = MaterialTheme.typography.titleSmall,
@@ -80,13 +87,13 @@ fun InfoCard(
                 modifier = Modifier.padding(start = 6.dp)
             )
         }
-        Row {
+        Row(Modifier.padding(start = 16.dp)) {
             title?.let {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(start = 16.dp, end = 8.dp).alignByBaseline()
+                    modifier = Modifier.padding(top = 16.dp, end = 8.dp).alignByBaseline()
                 )
             }
             titleAlt?.let {
@@ -94,7 +101,7 @@ fun InfoCard(
                     text = titleAlt,
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
-                    modifier = Modifier.alignByBaseline()
+                    modifier = Modifier.padding(top = 16.dp).alignByBaseline()
                 )
             }
         }
@@ -124,7 +131,7 @@ fun InfoCardPreview() {
             titleAlt = "不适于敏感人群",
             subtitle = "与昨天同时间类似。"
         ) {
-            Spacer(Modifier.height(128.dp))
+            Box(Modifier.fillMaxWidth().height(128.dp).background(MaterialTheme.colorScheme.onSurfaceVariant.copy(0.12f)))
         }
     }
 }
