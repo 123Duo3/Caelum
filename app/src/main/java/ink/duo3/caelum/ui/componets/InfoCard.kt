@@ -17,11 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.PlatformTextStyle
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ink.duo3.caelum.R
 import ink.duo3.caelum.ui.theme.PreviewTheme
 
@@ -70,9 +67,11 @@ fun InfoCard(
         modifier
             .clip(RoundedCornerShape(24.dp))
             .background(MaterialTheme.colorScheme.surface)
-            .padding(16.dp, 12.dp)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.padding(16.dp, 12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Icon(icon, "", tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
             Text(
                 text = category,
@@ -87,7 +86,7 @@ fun InfoCard(
                     text = title,
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(top = 16.dp, end = 8.dp).alignByBaseline()
+                    modifier = Modifier.padding(start = 16.dp, end = 8.dp).alignByBaseline()
                 )
             }
             titleAlt?.let {
@@ -95,7 +94,7 @@ fun InfoCard(
                     text = titleAlt,
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
-                    modifier = Modifier.padding(top = 16.dp).alignByBaseline()
+                    modifier = Modifier.padding(start = 16.dp).alignByBaseline()
                 )
             }
         }
@@ -104,6 +103,7 @@ fun InfoCard(
 
         subtitle?.let {
             Text(
+                modifier = Modifier.padding(start = 16.dp, bottom = 12.dp),
                 text = subtitle,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
@@ -117,6 +117,7 @@ fun InfoCard(
 fun InfoCardPreview() {
     PreviewTheme {
         InfoCard(
+            modifier = Modifier.fillMaxWidth(),
             icon = painterResource(R.drawable.ic_arrow_upward_20dp),
             category = "空气质量",
             title = "122",

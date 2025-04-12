@@ -51,7 +51,7 @@ fun DailyWeatherCard(modifier: Modifier, data: List<DailyWeatherInfo>) {
         icon = rememberVectorPainter(Icons.Default.CalendarMonth),
         category = "10 日天气预报",
     ) {
-        Column(Modifier.padding(top = 12.dp)) {
+        Column(Modifier.padding(vertical = 12.dp, horizontal = 10.dp)) {
             val maxTemp = remember(data) { data.maxOf { it.tempMax } }
             val minTemp = remember(data) { data.minOf { it.tempMin } }
 
@@ -94,7 +94,7 @@ private fun DailyWeatherItem(
                     shape = MaterialTheme.shapes.medium
                 ) else Modifier
             )
-            .padding(horizontal = 6.dp, vertical = 12.dp),
+            .padding(start = 6.dp, end = 12.dp, top = 12.dp, bottom = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         val tempTextStyle = MaterialTheme.typography.titleSmall.copy(fontFeatureSettings = "tnum")
