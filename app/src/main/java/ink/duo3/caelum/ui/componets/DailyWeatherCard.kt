@@ -25,9 +25,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
 import ink.duo3.caelum.ui.theme.PreviewTheme
@@ -95,11 +97,10 @@ private fun DailyWeatherItem(
             .padding(horizontal = 6.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val measurer = rememberTextMeasurer()
-        val measureResult =
-            measurer.measure(text = "-99°", style = MaterialTheme.typography.titleSmall)
+        val tempTextStyle = MaterialTheme.typography.titleSmall.copy(fontFeatureSettings = "tnum")
         // For fixed width
-        val tempTextWidth = with(LocalDensity.current) { measureResult.size.width.toDp() }
+        val tempTextWidth = measureTempTextWidth(tempTextStyle)
+
         Text(label, style = MaterialTheme.typography.titleSmall)
         Spacer(Modifier.width(16.dp))
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -117,8 +118,8 @@ private fun DailyWeatherItem(
             modifier = Modifier.width(tempTextWidth),
             text = "$tempMin°",
             color = LocalContentColor.current.copy(0.4f),
-            style = MaterialTheme.typography.titleSmall,
-            textAlign = TextAlign.Center
+            style = tempTextStyle,
+            textAlign = TextAlign.End
         )
         Spacer(Modifier.width(16.dp))
         TempIndicator(tempRangeMin, tempRangeMax, tempMin, tempMax, modifier = Modifier.weight(1f))
@@ -126,10 +127,18 @@ private fun DailyWeatherItem(
         Text(
             modifier = Modifier.width(tempTextWidth),
             text = "$tempMax°",
-            style = MaterialTheme.typography.titleSmall,
+            style = tempTextStyle,
             textAlign = TextAlign.End
         )
     }
+}
+
+@Composable
+private fun measureTempTextWidth(style: TextStyle): Dp {
+    val measurer = rememberTextMeasurer()
+    val measureResult =
+        measurer.measure(text = "-00°", style = style)
+    return with(LocalDensity.current) { measureResult.size.width.toDp() }
 }
 
 @Composable
