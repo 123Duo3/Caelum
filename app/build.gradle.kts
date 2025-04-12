@@ -1,3 +1,4 @@
+import org.gradle.process.internal.DefaultExecOperations
 import java.io.ByteArrayOutputStream
 import java.nio.charset.Charset
 import java.util.Properties
@@ -60,6 +61,7 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
@@ -73,6 +75,7 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
