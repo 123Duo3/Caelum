@@ -27,16 +27,16 @@ import ink.duo3.caelum.ui.theme.PreviewTheme
 
 @Composable
 fun InfoCard(
+    modifier: Modifier = Modifier,
     title: String?=null,
     subtitle: String?=null,
     content: @Composable () -> Unit
 ) {
     Column(
-        Modifier
+        modifier
             .clip(RoundedCornerShape(24.dp))
             .background(MaterialTheme.colorScheme.surface)
             .padding(16.dp, 12.dp)
-            .fillMaxWidth(1f)
     ) {
         title?.let {
             Text(
@@ -60,17 +60,17 @@ fun InfoCard(
 fun InfoCard(
     icon: Painter,
     category: String,
-    title: String?=null,
-    titleAlt: String?=null,
-    subtitle: String?=null,
+    modifier: Modifier = Modifier,
+    title: String? = null,
+    titleAlt: String? = null,
+    subtitle: String? = null,
     content: @Composable () -> Unit
 ) {
     Column(
-        Modifier
+        modifier
             .clip(RoundedCornerShape(24.dp))
             .background(MaterialTheme.colorScheme.surface)
             .padding(16.dp, 12.dp)
-            .fillMaxWidth(1f)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(icon, "", tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))

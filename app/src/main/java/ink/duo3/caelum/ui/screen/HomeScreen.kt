@@ -36,6 +36,7 @@ import ink.duo3.caelum.ui.componets.LocationItem
 import ink.duo3.caelum.ui.componets.MultilayerIcon
 import ink.duo3.caelum.ui.componets.PrecipitationCard
 import ink.duo3.caelum.ui.componets.WeatherIcons
+import ink.duo3.caelum.ui.theme.PreviewTheme
 import ink.duo3.caelum.ui.theme.PreviewThemeWithBg
 import ink.duo3.caelum.viewmodel.MainViewModel
 import org.koin.compose.viewmodel.koinViewModel
@@ -243,7 +244,9 @@ fun HomeScreen(vm: MainViewModel = koinViewModel()) {
 
         CompositionLocalProvider(LocalHazeState provides hazeState) {
             BottomBar(
-                modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth(),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth(),
                 gpsStatus = vm.locationStatus.value.gpsStatus,
                 locations = vm.currentLocation.value?.let { listOf(LocationItem(it.name, it.cityId)) } ?: listOf(
                     LocationItem("定位中", "")
@@ -268,5 +271,85 @@ fun HomeScreen(vm: MainViewModel = koinViewModel()) {
 private fun Preview() {
     PreviewThemeWithBg {
         HomeScreen()
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Preview
+@Composable
+private fun IconsPreview() {
+    PreviewTheme {
+        InfoCard {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                MultilayerIcon(WeatherIcons.Clear, "")
+                MultilayerIcon(WeatherIcons.PartlyCloudy, "")
+                MultilayerIcon(WeatherIcons.MostlyClearWithIntermittentClouds, "")
+                MultilayerIcon(WeatherIcons.MostlyCloudy, "")
+                MultilayerIcon(WeatherIcons.Overcast, "")
+                MultilayerIcon(WeatherIcons.ClearNight, "")
+                MultilayerIcon(WeatherIcons.PartlyCloudyNight, "")
+                MultilayerIcon(WeatherIcons.MostlyClearWithIntermittentCloudsNight, "")
+                MultilayerIcon(WeatherIcons.MostlyCloudyNight, "")
+                MultilayerIcon(WeatherIcons.Shower, "")
+                MultilayerIcon(WeatherIcons.HeavyShower, "")
+                MultilayerIcon(WeatherIcons.ShowerNight, "")
+                MultilayerIcon(WeatherIcons.HeavyShowerNight, "")
+                MultilayerIcon(WeatherIcons.Thunderstorm, "")
+                MultilayerIcon(WeatherIcons.SevereThunderstorm, "")
+                MultilayerIcon(WeatherIcons.ThunderstormWithHail, "")
+                MultilayerIcon(WeatherIcons.LightRain, "")
+                MultilayerIcon(WeatherIcons.LightToModerateRain, "")
+                MultilayerIcon(WeatherIcons.ModerateRain, "")
+                MultilayerIcon(WeatherIcons.ModerateToHeavyRain, "")
+                MultilayerIcon(WeatherIcons.HeavyRain, "")
+                MultilayerIcon(WeatherIcons.HeavyToTorrentialRain, "")
+                MultilayerIcon(WeatherIcons.TorrentialRain, "")
+                MultilayerIcon(WeatherIcons.TorrentialToSevereTorrentialRain, "")
+                MultilayerIcon(WeatherIcons.SevereTorrentialRain, "")
+                MultilayerIcon(
+                    WeatherIcons.SevereTorrentialToExtremelySevereTorrentialRain,
+                    ""
+                )
+                MultilayerIcon(WeatherIcons.ExtremelySevereTorrentialRain, "")
+                MultilayerIcon(WeatherIcons.ExtremeRain, "")
+                MultilayerIcon(WeatherIcons.Drizzle, "")
+                MultilayerIcon(WeatherIcons.FreezingRain, "")
+                MultilayerIcon(WeatherIcons.Rain, "")
+                MultilayerIcon(WeatherIcons.LightSnow, "")
+                MultilayerIcon(WeatherIcons.LightToModerateSnow, "")
+                MultilayerIcon(WeatherIcons.ModerateSnow, "")
+                MultilayerIcon(WeatherIcons.ModerateToHeavySnow, "")
+                MultilayerIcon(WeatherIcons.HeavySnow, "")
+                MultilayerIcon(WeatherIcons.HeavyToBlizzardSnow, "")
+                MultilayerIcon(WeatherIcons.Blizzard, "")
+                MultilayerIcon(WeatherIcons.RainAndSnowMix, "")
+                MultilayerIcon(WeatherIcons.RainAndSnow, "")
+                MultilayerIcon(WeatherIcons.ShowerWithSnow, "")
+                MultilayerIcon(WeatherIcons.SnowShower, "")
+                MultilayerIcon(WeatherIcons.ShowerWithSnowNight, "")
+                MultilayerIcon(WeatherIcons.SnowShowerNight, "")
+                MultilayerIcon(WeatherIcons.Snow, "")
+                MultilayerIcon(WeatherIcons.LightFog, "")
+                MultilayerIcon(WeatherIcons.Fog, "")
+                MultilayerIcon(WeatherIcons.HeavyFog, "")
+                MultilayerIcon(WeatherIcons.DenseFog, "")
+                MultilayerIcon(WeatherIcons.SevereDenseFog, "")
+                MultilayerIcon(WeatherIcons.ExtremelyDenseFog, "")
+                MultilayerIcon(WeatherIcons.Haze, "")
+                MultilayerIcon(WeatherIcons.ModerateHaze, "")
+                MultilayerIcon(WeatherIcons.HeavyHaze, "")
+                MultilayerIcon(WeatherIcons.SevereHaze, "")
+                MultilayerIcon(WeatherIcons.FloatingDust, "")
+                MultilayerIcon(WeatherIcons.DustStorm, "")
+                MultilayerIcon(WeatherIcons.Sandstorm, "")
+                MultilayerIcon(WeatherIcons.SevereSandstorm, "")
+                MultilayerIcon(WeatherIcons.Hot, "")
+                MultilayerIcon(WeatherIcons.Cold, "")
+                MultilayerIcon(WeatherIcons.Unknown, "")
+            }
+        }
     }
 }
