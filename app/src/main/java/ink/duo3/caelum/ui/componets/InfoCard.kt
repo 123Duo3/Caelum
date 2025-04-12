@@ -94,7 +94,7 @@ fun InfoCard(
                     text = titleAlt,
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
-                    modifier = Modifier.padding(start = 16.dp).alignByBaseline()
+                    modifier = Modifier.alignByBaseline()
                 )
             }
         }
