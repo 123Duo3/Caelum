@@ -24,6 +24,9 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
@@ -48,7 +51,7 @@ fun DailyWeatherCard(modifier: Modifier, data: List<DailyWeatherInfo>) {
     ) {
         Column(Modifier.padding(top = 12.dp)) {
             val maxTemp = remember(data) { data.maxOf { it.tempMax } }
-            val minTemp = remember(data) { data.minOf { it.tempMin} }
+            val minTemp = remember(data) { data.minOf { it.tempMin } }
 
             data.fastForEachIndexed { index, it ->
                 DailyWeatherItem(
@@ -92,20 +95,40 @@ private fun DailyWeatherItem(
             .padding(horizontal = 6.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(label)
+        val measurer = rememberTextMeasurer()
+        val measureResult =
+            measurer.measure(text = "-99°", style = MaterialTheme.typography.titleSmall)
+        // For fixed width
+        val tempTextWidth = with(LocalDensity.current) { measureResult.size.width.toDp() }
+        Text(label, style = MaterialTheme.typography.titleSmall)
         Spacer(Modifier.width(16.dp))
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             MultilayerIcon(weatherIcon, weatherDescription)
             probability?.let {
-                Text(text = it, color = Color(0xFF7DB3CF), style = MaterialTheme.typography.labelSmall)
+                Text(
+                    text = it,
+                    color = Color(0xFF7DB3CF),
+                    style = MaterialTheme.typography.labelSmall
+                )
             }
         }
         Spacer(Modifier.width(16.dp))
-        Text("$tempMin°", color = LocalContentColor.current.copy(0.4f))
+        Text(
+            modifier = Modifier.width(tempTextWidth),
+            text = "$tempMin°",
+            color = LocalContentColor.current.copy(0.4f),
+            style = MaterialTheme.typography.titleSmall,
+            textAlign = TextAlign.Center
+        )
         Spacer(Modifier.width(16.dp))
         TempIndicator(tempRangeMin, tempRangeMax, tempMin, tempMax, modifier = Modifier.weight(1f))
         Spacer(Modifier.width(16.dp))
-        Text("$tempMax°")
+        Text(
+            modifier = Modifier.width(tempTextWidth),
+            text = "$tempMax°",
+            style = MaterialTheme.typography.titleSmall,
+            textAlign = TextAlign.End
+        )
     }
 }
 
