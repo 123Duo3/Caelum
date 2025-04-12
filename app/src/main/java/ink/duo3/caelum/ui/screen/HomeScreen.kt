@@ -31,6 +31,7 @@ import ink.duo3.caelum.ui.LocalHazeState
 import ink.duo3.caelum.ui.componets.AirQualityCard
 import ink.duo3.caelum.ui.componets.Banner
 import ink.duo3.caelum.ui.componets.BottomBar
+import ink.duo3.caelum.ui.componets.DailyWeatherCard
 import ink.duo3.caelum.ui.componets.InfoCard
 import ink.duo3.caelum.ui.componets.LocationItem
 import ink.duo3.caelum.ui.componets.MultilayerIcon
@@ -60,8 +61,8 @@ fun HomeScreen(vm: MainViewModel = koinViewModel()) {
                     weather.temp,
                     text = weather.text,
                     feelsLike = weather.feelsLike,
-                    maxTemp = "--",
-                    minTemp = "--"
+                    maxTemp = vm.dailyWeather.value.firstOrNull()?.tempMax?.toString() ?: "--",
+                    minTemp = vm.dailyWeather.value.firstOrNull()?.tempMin?.toString() ?: "--"
                 )
 
                 Spacer(Modifier.height(48.dp))
@@ -74,167 +75,11 @@ fun HomeScreen(vm: MainViewModel = koinViewModel()) {
 
                 Spacer(Modifier.height(16.dp))
 
-                InfoCard {
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-                        MultilayerIcon(WeatherIcons.Clear, "")
-                        MultilayerIcon(WeatherIcons.PartlyCloudy, "")
-                        MultilayerIcon(WeatherIcons.MostlyClearWithIntermittentClouds, "")
-                        MultilayerIcon(WeatherIcons.MostlyCloudy, "")
-                        MultilayerIcon(WeatherIcons.Overcast, "")
-                        MultilayerIcon(WeatherIcons.ClearNight, "")
-                        MultilayerIcon(WeatherIcons.PartlyCloudyNight, "")
-                        MultilayerIcon(WeatherIcons.MostlyClearWithIntermittentCloudsNight, "")
-                        MultilayerIcon(WeatherIcons.MostlyCloudyNight, "")
-                        MultilayerIcon(WeatherIcons.Shower, "")
-                        MultilayerIcon(WeatherIcons.HeavyShower, "")
-                        MultilayerIcon(WeatherIcons.ShowerNight, "")
-                        MultilayerIcon(WeatherIcons.HeavyShowerNight, "")
-                        MultilayerIcon(WeatherIcons.Thunderstorm, "")
-                        MultilayerIcon(WeatherIcons.SevereThunderstorm, "")
-                        MultilayerIcon(WeatherIcons.ThunderstormWithHail, "")
-                        MultilayerIcon(WeatherIcons.LightRain, "")
-                        MultilayerIcon(WeatherIcons.LightToModerateRain, "")
-                        MultilayerIcon(WeatherIcons.ModerateRain, "")
-                        MultilayerIcon(WeatherIcons.ModerateToHeavyRain, "")
-                        MultilayerIcon(WeatherIcons.HeavyRain, "")
-                        MultilayerIcon(WeatherIcons.HeavyToTorrentialRain, "")
-                        MultilayerIcon(WeatherIcons.TorrentialRain, "")
-                        MultilayerIcon(WeatherIcons.TorrentialToSevereTorrentialRain, "")
-                        MultilayerIcon(WeatherIcons.SevereTorrentialRain, "")
-                        MultilayerIcon(
-                            WeatherIcons.SevereTorrentialToExtremelySevereTorrentialRain,
-                            ""
-                        )
-                        MultilayerIcon(WeatherIcons.ExtremelySevereTorrentialRain, "")
-                        MultilayerIcon(WeatherIcons.ExtremeRain, "")
-                        MultilayerIcon(WeatherIcons.Drizzle, "")
-                        MultilayerIcon(WeatherIcons.FreezingRain, "")
-                        MultilayerIcon(WeatherIcons.Rain, "")
-                        MultilayerIcon(WeatherIcons.LightSnow, "")
-                        MultilayerIcon(WeatherIcons.LightToModerateSnow, "")
-                        MultilayerIcon(WeatherIcons.ModerateSnow, "")
-                        MultilayerIcon(WeatherIcons.ModerateToHeavySnow, "")
-                        MultilayerIcon(WeatherIcons.HeavySnow, "")
-                        MultilayerIcon(WeatherIcons.HeavyToBlizzardSnow, "")
-                        MultilayerIcon(WeatherIcons.Blizzard, "")
-                        MultilayerIcon(WeatherIcons.RainAndSnowMix, "")
-                        MultilayerIcon(WeatherIcons.RainAndSnow, "")
-                        MultilayerIcon(WeatherIcons.ShowerWithSnow, "")
-                        MultilayerIcon(WeatherIcons.SnowShower, "")
-                        MultilayerIcon(WeatherIcons.ShowerWithSnowNight, "")
-                        MultilayerIcon(WeatherIcons.SnowShowerNight, "")
-                        MultilayerIcon(WeatherIcons.Snow, "")
-                        MultilayerIcon(WeatherIcons.LightFog, "")
-                        MultilayerIcon(WeatherIcons.Fog, "")
-                        MultilayerIcon(WeatherIcons.HeavyFog, "")
-                        MultilayerIcon(WeatherIcons.DenseFog, "")
-                        MultilayerIcon(WeatherIcons.SevereDenseFog, "")
-                        MultilayerIcon(WeatherIcons.ExtremelyDenseFog, "")
-                        MultilayerIcon(WeatherIcons.Haze, "")
-                        MultilayerIcon(WeatherIcons.ModerateHaze, "")
-                        MultilayerIcon(WeatherIcons.HeavyHaze, "")
-                        MultilayerIcon(WeatherIcons.SevereHaze, "")
-                        MultilayerIcon(WeatherIcons.FloatingDust, "")
-                        MultilayerIcon(WeatherIcons.DustStorm, "")
-                        MultilayerIcon(WeatherIcons.Sandstorm, "")
-                        MultilayerIcon(WeatherIcons.SevereSandstorm, "")
-                        MultilayerIcon(WeatherIcons.Hot, "")
-                        MultilayerIcon(WeatherIcons.Cold, "")
-                        MultilayerIcon(WeatherIcons.Unknown, "")
-                    }
+                if (vm.dailyWeather.value.isNotEmpty()) { // TODO: Loading animation
+                    DailyWeatherCard(Modifier.fillMaxWidth(), vm.dailyWeather.value)
                 }
 
                 Spacer(Modifier.height(16.dp))
-
-                InfoCard {
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-                        Icon(
-                            painterResource(R.drawable.warning_typhoon_24dp),
-                            "",
-                            Modifier,
-                            MaterialTheme.colorScheme.onSurface
-                        )
-                        Icon(
-                            painterResource(R.drawable.warning_tornado_24dp),
-                            "",
-                            Modifier,
-                            MaterialTheme.colorScheme.onSurface
-                        )
-                        Icon(
-                            painterResource(R.drawable.warning_rainstorm_24dp),
-                            "",
-                            Modifier,
-                            MaterialTheme.colorScheme.onSurface
-                        )
-                        Icon(
-                            painterResource(R.drawable.warning_snow_storm_24dp),
-                            "",
-                            Modifier,
-                            MaterialTheme.colorScheme.onSurface
-                        )
-                        Icon(
-                            painterResource(R.drawable.warning_cold_wave_24dp),
-                            "",
-                            Modifier,
-                            MaterialTheme.colorScheme.onSurface
-                        )
-                        Icon(
-                            painterResource(R.drawable.warning_gale_24dp),
-                            "",
-                            Modifier,
-                            MaterialTheme.colorScheme.onSurface
-                        )
-                        Icon(
-                            painterResource(R.drawable.warning_heat_wave_24dp),
-                            "",
-                            Modifier,
-                            MaterialTheme.colorScheme.onSurface
-                        )
-                        Icon(
-                            painterResource(R.drawable.warning_downburst_24dp),
-                            "",
-                            Modifier,
-                            MaterialTheme.colorScheme.onSurface
-                        )
-                        Icon(
-                            painterResource(R.drawable.warning_avalanche_24dp),
-                            "",
-                            Modifier,
-                            MaterialTheme.colorScheme.onSurface
-                        )
-                        Icon(
-                            painterResource(R.drawable.warning_lightning_24dp),
-                            "",
-                            Modifier,
-                            MaterialTheme.colorScheme.onSurface
-                        )
-                        Icon(
-                            painterResource(R.drawable.warning_hail_24dp),
-                            "",
-                            Modifier,
-                            MaterialTheme.colorScheme.onSurface
-                        )
-                        Icon(
-                            painterResource(R.drawable.warning_frost_24dp),
-                            "",
-                            Modifier,
-                            MaterialTheme.colorScheme.onSurface
-                        )
-                        Icon(
-                            painterResource(R.drawable.warning_heavy_fog_24dp),
-                            "",
-                            Modifier,
-                            MaterialTheme.colorScheme.onSurface
-                        )
-
-                    }
-                }
             }
         }
 
@@ -279,76 +124,167 @@ private fun Preview() {
 @Composable
 private fun IconsPreview() {
     PreviewTheme {
-        InfoCard {
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                MultilayerIcon(WeatherIcons.Clear, "")
-                MultilayerIcon(WeatherIcons.PartlyCloudy, "")
-                MultilayerIcon(WeatherIcons.MostlyClearWithIntermittentClouds, "")
-                MultilayerIcon(WeatherIcons.MostlyCloudy, "")
-                MultilayerIcon(WeatherIcons.Overcast, "")
-                MultilayerIcon(WeatherIcons.ClearNight, "")
-                MultilayerIcon(WeatherIcons.PartlyCloudyNight, "")
-                MultilayerIcon(WeatherIcons.MostlyClearWithIntermittentCloudsNight, "")
-                MultilayerIcon(WeatherIcons.MostlyCloudyNight, "")
-                MultilayerIcon(WeatherIcons.Shower, "")
-                MultilayerIcon(WeatherIcons.HeavyShower, "")
-                MultilayerIcon(WeatherIcons.ShowerNight, "")
-                MultilayerIcon(WeatherIcons.HeavyShowerNight, "")
-                MultilayerIcon(WeatherIcons.Thunderstorm, "")
-                MultilayerIcon(WeatherIcons.SevereThunderstorm, "")
-                MultilayerIcon(WeatherIcons.ThunderstormWithHail, "")
-                MultilayerIcon(WeatherIcons.LightRain, "")
-                MultilayerIcon(WeatherIcons.LightToModerateRain, "")
-                MultilayerIcon(WeatherIcons.ModerateRain, "")
-                MultilayerIcon(WeatherIcons.ModerateToHeavyRain, "")
-                MultilayerIcon(WeatherIcons.HeavyRain, "")
-                MultilayerIcon(WeatherIcons.HeavyToTorrentialRain, "")
-                MultilayerIcon(WeatherIcons.TorrentialRain, "")
-                MultilayerIcon(WeatherIcons.TorrentialToSevereTorrentialRain, "")
-                MultilayerIcon(WeatherIcons.SevereTorrentialRain, "")
-                MultilayerIcon(
-                    WeatherIcons.SevereTorrentialToExtremelySevereTorrentialRain,
-                    ""
-                )
-                MultilayerIcon(WeatherIcons.ExtremelySevereTorrentialRain, "")
-                MultilayerIcon(WeatherIcons.ExtremeRain, "")
-                MultilayerIcon(WeatherIcons.Drizzle, "")
-                MultilayerIcon(WeatherIcons.FreezingRain, "")
-                MultilayerIcon(WeatherIcons.Rain, "")
-                MultilayerIcon(WeatherIcons.LightSnow, "")
-                MultilayerIcon(WeatherIcons.LightToModerateSnow, "")
-                MultilayerIcon(WeatherIcons.ModerateSnow, "")
-                MultilayerIcon(WeatherIcons.ModerateToHeavySnow, "")
-                MultilayerIcon(WeatherIcons.HeavySnow, "")
-                MultilayerIcon(WeatherIcons.HeavyToBlizzardSnow, "")
-                MultilayerIcon(WeatherIcons.Blizzard, "")
-                MultilayerIcon(WeatherIcons.RainAndSnowMix, "")
-                MultilayerIcon(WeatherIcons.RainAndSnow, "")
-                MultilayerIcon(WeatherIcons.ShowerWithSnow, "")
-                MultilayerIcon(WeatherIcons.SnowShower, "")
-                MultilayerIcon(WeatherIcons.ShowerWithSnowNight, "")
-                MultilayerIcon(WeatherIcons.SnowShowerNight, "")
-                MultilayerIcon(WeatherIcons.Snow, "")
-                MultilayerIcon(WeatherIcons.LightFog, "")
-                MultilayerIcon(WeatherIcons.Fog, "")
-                MultilayerIcon(WeatherIcons.HeavyFog, "")
-                MultilayerIcon(WeatherIcons.DenseFog, "")
-                MultilayerIcon(WeatherIcons.SevereDenseFog, "")
-                MultilayerIcon(WeatherIcons.ExtremelyDenseFog, "")
-                MultilayerIcon(WeatherIcons.Haze, "")
-                MultilayerIcon(WeatherIcons.ModerateHaze, "")
-                MultilayerIcon(WeatherIcons.HeavyHaze, "")
-                MultilayerIcon(WeatherIcons.SevereHaze, "")
-                MultilayerIcon(WeatherIcons.FloatingDust, "")
-                MultilayerIcon(WeatherIcons.DustStorm, "")
-                MultilayerIcon(WeatherIcons.Sandstorm, "")
-                MultilayerIcon(WeatherIcons.SevereSandstorm, "")
-                MultilayerIcon(WeatherIcons.Hot, "")
-                MultilayerIcon(WeatherIcons.Cold, "")
-                MultilayerIcon(WeatherIcons.Unknown, "")
+        Column {
+            InfoCard {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    MultilayerIcon(WeatherIcons.Clear, "")
+                    MultilayerIcon(WeatherIcons.PartlyCloudy, "")
+                    MultilayerIcon(WeatherIcons.MostlyClearWithIntermittentClouds, "")
+                    MultilayerIcon(WeatherIcons.MostlyCloudy, "")
+                    MultilayerIcon(WeatherIcons.Overcast, "")
+                    MultilayerIcon(WeatherIcons.ClearNight, "")
+                    MultilayerIcon(WeatherIcons.PartlyCloudyNight, "")
+                    MultilayerIcon(WeatherIcons.MostlyClearWithIntermittentCloudsNight, "")
+                    MultilayerIcon(WeatherIcons.MostlyCloudyNight, "")
+                    MultilayerIcon(WeatherIcons.Shower, "")
+                    MultilayerIcon(WeatherIcons.HeavyShower, "")
+                    MultilayerIcon(WeatherIcons.ShowerNight, "")
+                    MultilayerIcon(WeatherIcons.HeavyShowerNight, "")
+                    MultilayerIcon(WeatherIcons.Thunderstorm, "")
+                    MultilayerIcon(WeatherIcons.SevereThunderstorm, "")
+                    MultilayerIcon(WeatherIcons.ThunderstormWithHail, "")
+                    MultilayerIcon(WeatherIcons.LightRain, "")
+                    MultilayerIcon(WeatherIcons.LightToModerateRain, "")
+                    MultilayerIcon(WeatherIcons.ModerateRain, "")
+                    MultilayerIcon(WeatherIcons.ModerateToHeavyRain, "")
+                    MultilayerIcon(WeatherIcons.HeavyRain, "")
+                    MultilayerIcon(WeatherIcons.HeavyToTorrentialRain, "")
+                    MultilayerIcon(WeatherIcons.TorrentialRain, "")
+                    MultilayerIcon(WeatherIcons.TorrentialToSevereTorrentialRain, "")
+                    MultilayerIcon(WeatherIcons.SevereTorrentialRain, "")
+                    MultilayerIcon(
+                        WeatherIcons.SevereTorrentialToExtremelySevereTorrentialRain,
+                        ""
+                    )
+                    MultilayerIcon(WeatherIcons.ExtremelySevereTorrentialRain, "")
+                    MultilayerIcon(WeatherIcons.ExtremeRain, "")
+                    MultilayerIcon(WeatherIcons.Drizzle, "")
+                    MultilayerIcon(WeatherIcons.FreezingRain, "")
+                    MultilayerIcon(WeatherIcons.Rain, "")
+                    MultilayerIcon(WeatherIcons.LightSnow, "")
+                    MultilayerIcon(WeatherIcons.LightToModerateSnow, "")
+                    MultilayerIcon(WeatherIcons.ModerateSnow, "")
+                    MultilayerIcon(WeatherIcons.ModerateToHeavySnow, "")
+                    MultilayerIcon(WeatherIcons.HeavySnow, "")
+                    MultilayerIcon(WeatherIcons.HeavyToBlizzardSnow, "")
+                    MultilayerIcon(WeatherIcons.Blizzard, "")
+                    MultilayerIcon(WeatherIcons.RainAndSnowMix, "")
+                    MultilayerIcon(WeatherIcons.RainAndSnow, "")
+                    MultilayerIcon(WeatherIcons.ShowerWithSnow, "")
+                    MultilayerIcon(WeatherIcons.SnowShower, "")
+                    MultilayerIcon(WeatherIcons.ShowerWithSnowNight, "")
+                    MultilayerIcon(WeatherIcons.SnowShowerNight, "")
+                    MultilayerIcon(WeatherIcons.Snow, "")
+                    MultilayerIcon(WeatherIcons.LightFog, "")
+                    MultilayerIcon(WeatherIcons.Fog, "")
+                    MultilayerIcon(WeatherIcons.HeavyFog, "")
+                    MultilayerIcon(WeatherIcons.DenseFog, "")
+                    MultilayerIcon(WeatherIcons.SevereDenseFog, "")
+                    MultilayerIcon(WeatherIcons.ExtremelyDenseFog, "")
+                    MultilayerIcon(WeatherIcons.Haze, "")
+                    MultilayerIcon(WeatherIcons.ModerateHaze, "")
+                    MultilayerIcon(WeatherIcons.HeavyHaze, "")
+                    MultilayerIcon(WeatherIcons.SevereHaze, "")
+                    MultilayerIcon(WeatherIcons.FloatingDust, "")
+                    MultilayerIcon(WeatherIcons.DustStorm, "")
+                    MultilayerIcon(WeatherIcons.Sandstorm, "")
+                    MultilayerIcon(WeatherIcons.SevereSandstorm, "")
+                    MultilayerIcon(WeatherIcons.Hot, "")
+                    MultilayerIcon(WeatherIcons.Cold, "")
+                    MultilayerIcon(WeatherIcons.Unknown, "")
+                }
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            InfoCard {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Icon(
+                        painterResource(R.drawable.warning_typhoon_24dp),
+                        "",
+                        Modifier,
+                        MaterialTheme.colorScheme.onSurface
+                    )
+                    Icon(
+                        painterResource(R.drawable.warning_tornado_24dp),
+                        "",
+                        Modifier,
+                        MaterialTheme.colorScheme.onSurface
+                    )
+                    Icon(
+                        painterResource(R.drawable.warning_rainstorm_24dp),
+                        "",
+                        Modifier,
+                        MaterialTheme.colorScheme.onSurface
+                    )
+                    Icon(
+                        painterResource(R.drawable.warning_snow_storm_24dp),
+                        "",
+                        Modifier,
+                        MaterialTheme.colorScheme.onSurface
+                    )
+                    Icon(
+                        painterResource(R.drawable.warning_cold_wave_24dp),
+                        "",
+                        Modifier,
+                        MaterialTheme.colorScheme.onSurface
+                    )
+                    Icon(
+                        painterResource(R.drawable.warning_gale_24dp),
+                        "",
+                        Modifier,
+                        MaterialTheme.colorScheme.onSurface
+                    )
+                    Icon(
+                        painterResource(R.drawable.warning_heat_wave_24dp),
+                        "",
+                        Modifier,
+                        MaterialTheme.colorScheme.onSurface
+                    )
+                    Icon(
+                        painterResource(R.drawable.warning_downburst_24dp),
+                        "",
+                        Modifier,
+                        MaterialTheme.colorScheme.onSurface
+                    )
+                    Icon(
+                        painterResource(R.drawable.warning_avalanche_24dp),
+                        "",
+                        Modifier,
+                        MaterialTheme.colorScheme.onSurface
+                    )
+                    Icon(
+                        painterResource(R.drawable.warning_lightning_24dp),
+                        "",
+                        Modifier,
+                        MaterialTheme.colorScheme.onSurface
+                    )
+                    Icon(
+                        painterResource(R.drawable.warning_hail_24dp),
+                        "",
+                        Modifier,
+                        MaterialTheme.colorScheme.onSurface
+                    )
+                    Icon(
+                        painterResource(R.drawable.warning_frost_24dp),
+                        "",
+                        Modifier,
+                        MaterialTheme.colorScheme.onSurface
+                    )
+                    Icon(
+                        painterResource(R.drawable.warning_heavy_fog_24dp),
+                        "",
+                        Modifier,
+                        MaterialTheme.colorScheme.onSurface
+                    )
+
+                }
             }
         }
     }
