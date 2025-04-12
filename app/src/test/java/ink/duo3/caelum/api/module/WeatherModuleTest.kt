@@ -11,4 +11,9 @@ class WeatherModuleTest {
     fun testGetLocations() = runTest {
         println(client.weatherModule().getCityByLocation(117.22, 31.82))
     }
+
+    @Test
+    fun testGet10Day() = runTest {
+        println(client.weatherModule().get10d("101040100"))
+    }
 }
