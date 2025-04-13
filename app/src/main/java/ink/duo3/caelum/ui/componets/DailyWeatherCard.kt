@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
 import ink.duo3.caelum.ui.theme.PreviewTheme
 import ink.duo3.caelum.ui.theme.PreviewThemeWithBg
+import ink.duo3.caelum.ui.theme.harmonized
 import ink.duo3.caelum.ui.theme.temperature0
 import ink.duo3.caelum.ui.theme.temperature10
 import ink.duo3.caelum.ui.theme.temperature20
@@ -151,6 +152,8 @@ private fun measureTempTextWidth(style: TextStyle): Dp {
     return with(LocalDensity.current) { measureResult.size.width.toDp() }
 }
 
+private val brushColors = listOf(temperatureMinor40, temperatureMinor20, temperatureMinor10, temperature0, temperature10, temperature20, temperature30, temperature40, temperature50)
+
 @Composable
 private fun TempIndicator(
     rangeMin: Int,
@@ -160,6 +163,7 @@ private fun TempIndicator(
     modifier: Modifier
 ) {
     val trackColor = MaterialTheme.colorScheme.primary.copy(0.08f)
+    val brushColors = brushColors.map { it.harmonized() }
 
     Canvas(modifier.requiredHeight(4.dp)) {
         val brushRangeMax = 50
@@ -169,15 +173,15 @@ private fun TempIndicator(
         val brushWidth = (brushRangeMax - brushRangeMin).toFloat() / (rangeMax - rangeMin).toFloat() * size.width
 
         val indicatorBrush = Brush.horizontalGradient(
-            0f to temperatureMinor40,
-            0.22f to temperatureMinor20,
-            0.33f to temperatureMinor10,
-            0.44f to temperature0,
-            0.55f to temperature10,
-            0.66f to temperature20,
-            0.77f to temperature30,
-            0.88f to temperature40,
-            1f to temperature50,
+            0f to brushColors[0],
+            0.22f to brushColors[1],
+            0.33f to brushColors[2],
+            0.44f to brushColors[3],
+            0.55f to brushColors[4],
+            0.66f to brushColors[5],
+            0.77f to brushColors[6],
+            0.88f to brushColors[7],
+            1f to brushColors[8],
             startX = brushStartX,
             endX = brushStartX + brushWidth
         )
