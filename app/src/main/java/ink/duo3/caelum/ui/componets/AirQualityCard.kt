@@ -56,8 +56,13 @@ fun AirQualityCard(
     level: Int,
     effect: String
 ) {
+    val aqiIcon = when (level) {
+        1 -> R.drawable.ic_aqi_low_20dp
+        2 -> R.drawable.ic_aqi_medium_20dp
+        else -> R.drawable.ic_aqi_high_20dp
+    }
     InfoCard(
-        icon = painterResource(R.drawable.ic_arrow_upward_20dp),
+        icon = painterResource(aqiIcon),
         category = "空气质量",
         title = aqi.toString(),
         titleAlt = LevelText[level],

@@ -110,7 +110,7 @@ fun InfoCard(
 
         subtitle?.let {
             Text(
-                modifier = Modifier.padding(start = 16.dp, bottom = 12.dp),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp),
                 text = subtitle,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
@@ -125,7 +125,7 @@ fun InfoCardPreview() {
     PreviewTheme {
         InfoCard(
             modifier = Modifier.fillMaxWidth(),
-            icon = painterResource(R.drawable.ic_arrow_upward_20dp),
+            icon = painterResource(R.drawable.ic_aqi_medium_20dp),
             category = "空气质量",
             title = "122",
             titleAlt = "不适于敏感人群",

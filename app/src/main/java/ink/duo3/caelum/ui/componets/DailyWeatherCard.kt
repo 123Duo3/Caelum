@@ -2,16 +2,19 @@ package ink.duo3.caelum.ui.componets
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,6 +29,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
@@ -33,9 +37,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
+import ink.duo3.caelum.R
 import ink.duo3.caelum.ui.theme.PreviewTheme
 import ink.duo3.caelum.ui.theme.PreviewThemeWithBg
 import ink.duo3.caelum.ui.theme.harmonized
+import ink.duo3.caelum.ui.theme.rain
+import ink.duo3.caelum.ui.theme.rainDark
 import ink.duo3.caelum.ui.theme.temperature0
 import ink.duo3.caelum.ui.theme.temperature10
 import ink.duo3.caelum.ui.theme.temperature20
@@ -59,10 +66,10 @@ data class DailyWeatherInfo(
 fun DailyWeatherCard(modifier: Modifier, data: List<DailyWeatherInfo>) {
     InfoCard(
         modifier = modifier,
-        icon = rememberVectorPainter(Icons.Default.CalendarMonth),
+        icon = painterResource(R.drawable.ic_calendar_month_20px),
         category = "10 日天气预报",
     ) {
-        Column(Modifier.padding(start = 10.dp, end = 10.dp, top = 12.dp, bottom = 12.dp)) {
+        Column(Modifier.padding(start = 8.dp, end = 8.dp, top = 12.dp, bottom = 6.dp)) {
             val maxTemp = remember(data) { data.maxOf { it.tempMax } }
             val minTemp = remember(data) { data.minOf { it.tempMin } }
 
@@ -105,21 +112,21 @@ private fun DailyWeatherItem(
                     shape = MaterialTheme.shapes.medium
                 ) else Modifier
             )
-            .padding(start = 6.dp, end = 12.dp, top = 12.dp, bottom = 12.dp),
+            .padding(start = 8.dp, end = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         val tempTextStyle = MaterialTheme.typography.titleSmall.copy(fontFeatureSettings = "tnum")
         // For fixed width
         val tempTextWidth = measureTempTextWidth(tempTextStyle)
 
-        Text(label, style = MaterialTheme.typography.titleSmall)
+        Text(label, style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(0.dp, 12.dp))
         Spacer(Modifier.width(16.dp))
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             MultilayerIcon(weatherIcon, weatherDescription)
             probability?.let {
                 Text(
                     text = it,
-                    color = Color(0xFF7DB3CF),
+                    color = if(isSystemInDarkTheme()) rainDark.harmonized() else rain.harmonized(),
                     style = MaterialTheme.typography.labelSmall
                 )
             }

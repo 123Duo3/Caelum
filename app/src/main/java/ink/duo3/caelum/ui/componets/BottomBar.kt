@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
@@ -27,6 +28,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.ExperimentalHazeApi
@@ -61,8 +64,8 @@ fun BottomBar(
                 .height(80.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = {}) {
-                Icon(imageVector = Icons.Outlined.Map, contentDescription = "选择地区")
+            IconButton(onClick = {}, modifier = Modifier.padding(start = 8.dp)) {
+                Icon(imageVector = Icons.Outlined.Map, contentDescription = "地图")
             }
 
             Box(Modifier.weight(1f).fillMaxHeight().padding(16.dp), Alignment.Center) {
@@ -74,15 +77,27 @@ fun BottomBar(
                     Row(
                         modifier = Modifier
                             .fillMaxHeight()
-                            .padding(start = 16.dp, end = 24.dp),
+                            .padding(start = 16.dp, end = 22.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(Icons.Default.NearMe, "Near Me")
+                        Icon(
+                            Icons.Default.NearMe,
+                            "当前位置",
+                            Modifier.size(16.dp)
+                        )
                         Spacer(Modifier.width(6.dp))
                         Text(
                             locations[0].name,
                             maxLines = 1,
-                            style = MaterialTheme.typography.titleSmall
+                            style = MaterialTheme.typography.titleSmall.copy(
+                                platformStyle = PlatformTextStyle(
+                                    includeFontPadding = false
+                                ),
+                                lineHeightStyle = LineHeightStyle(
+                                    alignment = LineHeightStyle.Alignment.Bottom,
+                                    trim = LineHeightStyle.Trim.None
+                                )
+                            )
                         )
                     }
                 }
@@ -126,8 +141,8 @@ fun BottomBar(
                 }
             }*/
 
-            IconButton(onClick = {}) {
-                Icon(imageVector = Icons.AutoMirrored.Default.List, contentDescription = "菜单")
+            IconButton(onClick = {}, modifier = Modifier.padding(end = 8.dp)) {
+                Icon(imageVector = Icons.AutoMirrored.Default.List, contentDescription = "位置列表")
             }
         }
     }
