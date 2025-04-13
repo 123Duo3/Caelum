@@ -2,6 +2,7 @@ package ink.duo3.caelum.ui.componets
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,6 +35,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
 import ink.duo3.caelum.ui.theme.PreviewTheme
 import ink.duo3.caelum.ui.theme.PreviewThemeWithBg
+import ink.duo3.caelum.ui.theme.temperature0
+import ink.duo3.caelum.ui.theme.temperature10
+import ink.duo3.caelum.ui.theme.temperature20
+import ink.duo3.caelum.ui.theme.temperature30
+import ink.duo3.caelum.ui.theme.temperature40
+import ink.duo3.caelum.ui.theme.temperature50
+import ink.duo3.caelum.ui.theme.temperatureMinor10
+import ink.duo3.caelum.ui.theme.temperatureMinor20
+import ink.duo3.caelum.ui.theme.temperatureMinor40
 
 data class DailyWeatherInfo(
     val date: String,
@@ -150,19 +160,35 @@ private fun TempIndicator(
     modifier: Modifier
 ) {
     val trackColor = MaterialTheme.colorScheme.primary.copy(0.08f)
-    val indicator = Brush.horizontalGradient(
-        0f to Color(0xFF98D6DF),
-        0.8f to Color(0xFFE6B62F),
-        1f to Color(0xFFE69D2F)
-    )
+
     Canvas(modifier.requiredHeight(4.dp)) {
+        val brushRangeMax = 50
+        val brushRangeMin = -40
+
+        val brushStartX = (brushRangeMin - rangeMin).toFloat() / (rangeMax - rangeMin).toFloat() * size.width
+        val brushWidth = (brushRangeMax - brushRangeMin).toFloat() / (rangeMax - rangeMin).toFloat() * size.width
+
+        val indicatorBrush = Brush.horizontalGradient(
+            0f to temperatureMinor40,
+            0.22f to temperatureMinor20,
+            0.33f to temperatureMinor10,
+            0.44f to temperature0,
+            0.55f to temperature10,
+            0.66f to temperature20,
+            0.77f to temperature30,
+            0.88f to temperature40,
+            1f to temperature50,
+            startX = brushStartX,
+            endX = brushStartX + brushWidth
+        )
+
         drawRoundRect(trackColor, size = size, cornerRadius = CornerRadius(size.height / 2))
         val startX =
             (currentMin - rangeMin).toFloat() / (rangeMax - rangeMin).toFloat() * size.width
         val width =
             (currentMax - currentMin).toFloat() / (rangeMax - rangeMin).toFloat() * size.width
         drawRoundRect(
-            indicator,
+            indicatorBrush,
             size = Size(width, size.height),
             topLeft = Offset(startX, 0f),
             cornerRadius = CornerRadius(size.height / 2)
@@ -239,6 +265,11 @@ private fun PreviewDailyTempItemHighlight() {
 @Preview
 private fun PreviewIndicator() {
     PreviewTheme {
-        TempIndicator(9, 42, 15, 35, Modifier.fillMaxWidth())
+        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            TempIndicator(-40, 50, -40, 50, Modifier.fillMaxWidth())
+            TempIndicator(-40, 50, 15, 35, Modifier.fillMaxWidth())
+            TempIndicator(9, 42, 15, 42, Modifier.fillMaxWidth())
+            TempIndicator(9, 42, 12, 20, Modifier.fillMaxWidth())
+        }
     }
 }
