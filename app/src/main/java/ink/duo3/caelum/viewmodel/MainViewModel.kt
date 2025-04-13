@@ -38,6 +38,8 @@ class MainViewModel(
     val dailyWeatherStatus = mutableStateOf(DailyWeatherStatus.Idle)
     val dailyWeather = mutableStateOf<List<DailyWeatherInfo>>(emptyList())
 
+    val aqi = mutableStateOf<WeatherModule.AqiNowResp?>(null)
+
     data class LocationStatus(
         val gpsStatus: GpsStatus,
         val netStatus: GpsStatus,
@@ -170,6 +172,14 @@ class MainViewModel(
                     dailyWeatherStatus.value = DailyWeatherStatus.Error
                 }
             }
+
+            launch {
+                try {
+                    fetchAirQuality()
+                } catch (e: Exception) {
+                    Log.w(TAG, "fetchAirQuality: failed", e)
+                }
+            }
         }
     }
 
@@ -237,6 +247,15 @@ class MainViewModel(
                 dailyWeatherStatus.value = DailyWeatherStatus.Ok
             } else {
                 dailyWeatherStatus.value = DailyWeatherStatus.Error
+            }
+        }
+    }
+
+    private suspend fun fetchAirQuality() {
+        currentLocation.value?.let {
+            val resp = apiClient.weatherModule().getAqiNow(it.latitude, it.longitude)
+            if (resp.ok) {
+                aqi.value = resp.data
             }
         }
     }

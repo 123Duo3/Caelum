@@ -3,6 +3,7 @@ package ink.duo3.caelum.api.module
 import ink.duo3.caelum.api.CaelumApiClient
 import ink.duo3.caelum.api.model.WebResp
 import io.ktor.client.request.parameter
+import io.ktor.client.request.request
 import kotlinx.serialization.Serializable
 
 class WeatherModule internal constructor(
@@ -191,6 +192,20 @@ class WeatherModule internal constructor(
     suspend fun get10d(cityId: String): WebResp<DailyWeatherResp> {
         return client.get("/weather/10d") {
             parameter("cityId", cityId)
+        }
+    }
+
+    @Serializable
+    data class AqiNowResp(
+        val aqi: Int,
+        val level: Int,
+        val effect: String
+    )
+
+    suspend fun getAqiNow(latitude: Double, longitude: Double): WebResp<AqiNowResp> {
+        return client.get("/weather/aqiNow") {
+            parameter("latitude", latitude)
+            parameter("longitude", longitude)
         }
     }
 }

@@ -41,16 +41,27 @@ import ink.duo3.caelum.ui.theme.harmonized
 private val AQILevelP = listOf(0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.6f, 1f)
 private const val MaxAQI = 500
 
+private val LevelText = mapOf(
+    1 to "好",
+    2 to "中等",
+    3 to "不适于敏感人群",
+    4 to "不健康",
+    5 to "非常不健康",
+    6 to "危险"
+)
+
 @Composable
 fun AirQualityCard(
-    aqi: Int
+    aqi: Int,
+    level: Int,
+    effect: String
 ) {
     InfoCard(
         icon = painterResource(R.drawable.ic_arrow_upward_20dp),
         category = "空气质量",
         title = aqi.toString(),
-        titleAlt = "不适于敏感人群",
-        subtitle = "与昨天同时间类似。"
+        titleAlt = LevelText[level],
+        subtitle = effect
     ) {
         Box(Modifier.padding(horizontal = 16.dp)) {
             val aqi1Color = aqi1.harmonized()
@@ -197,7 +208,7 @@ private fun Preview() {
                 RepeatMode.Restart
             )
         )
-        AirQualityCard(anim.value.toInt())
+        AirQualityCard(anim.value.toInt(), 2, "与昨天同一时间类似")
     }
 }
 

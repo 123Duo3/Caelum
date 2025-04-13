@@ -71,7 +71,9 @@ fun HomeScreen(vm: MainViewModel = koinViewModel()) {
 
                 Spacer(Modifier.height(16.dp))
 
-                AirQualityCard(120)
+                vm.aqi.value?.let {
+                    AirQualityCard(it.aqi, it.level, it.effect)
+                }
 
                 Spacer(Modifier.height(16.dp))
 
