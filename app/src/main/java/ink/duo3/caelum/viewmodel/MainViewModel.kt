@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import ink.duo3.caelum.api.CaelumApiClient
 import ink.duo3.caelum.api.module.WeatherModule
 import ink.duo3.caelum.ui.componets.DailyWeatherInfo
+import ink.duo3.caelum.ui.componets.HourlyWeatherInfo
 import ink.duo3.caelum.ui.componets.MultilayerIcon
 import ink.duo3.caelum.ui.componets.WeatherIcons
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +17,7 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.periodUntil
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.todayIn
 import java.time.format.TextStyle
 import java.util.Locale
@@ -39,6 +41,7 @@ class MainViewModel(
     val dailyWeather = mutableStateOf<List<DailyWeatherInfo>>(emptyList())
 
     val aqi = mutableStateOf<WeatherModule.AqiNowResp?>(null)
+    val hourlyWeather = mutableStateOf<List<HourlyWeatherInfo>>(emptyList())
 
     data class LocationStatus(
         val gpsStatus: GpsStatus,
@@ -180,6 +183,14 @@ class MainViewModel(
                     Log.w(TAG, "fetchAirQuality: failed", e)
                 }
             }
+
+            launch {
+                try {
+                    fetchHourlyWeather()
+                } catch (e: Exception) {
+                    Log.w(TAG, "fetchHourlyWeather: failed", e)
+                }
+            }
         }
     }
 
@@ -259,6 +270,32 @@ class MainViewModel(
             }
         }
     }
+    private suspend fun fetchHourlyWeather() {
+        currentLocation.value?.let {
+            val resp = apiClient.weatherModule().get24h(it.cityId)
+            if (resp.ok) {
+                hourlyWeather.value = resp.data.hourly.map {
+                    HourlyWeatherInfo(
+                        time = formatTime(it.time),
+                        icon = iconCodeToWeatherIcon(it.icon),
+                        description = it.text,
+                        temp = it.temp.toInt()
+                    )
+                }
+            }
+        }
+    }
+}
+
+private fun formatTime(time: Instant): String {
+    // TODO(i18n): Hourly weather item time label
+    val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+    val dateTime = time.toLocalDateTime(TimeZone.currentSystemDefault())
+    if (now.time.hour + 1 == dateTime.time.hour) {
+        return "现在"
+    }
+
+    return "${dateTime.time.hour} 时"
 }
 
 /**
@@ -375,6 +412,10 @@ private val nightMap = mapOf<String, () -> MultilayerIcon>(
     "901" to { WeatherIcons.Cold },
     "999" to { WeatherIcons.Unknown }
 )
+
+private fun iconCodeToWeatherIcon(code: String): MultilayerIcon {
+    return dayMaps[code]?.invoke() ?: nightMap[code]?.invoke() ?: WeatherIcons.Unknown
+}
 
 private fun iconCodeToWeatherIcon(code: String, isDay: Boolean): MultilayerIcon {
     return (if (isDay) dayMaps else nightMap)[code]?.invoke() ?: WeatherIcons.Unknown

@@ -21,4 +21,9 @@ class WeatherModuleTest {
     fun testGetAqiNow() = runTest {
         println(client.weatherModule().getAqiNow(31.82, 117.22))
     }
+
+    @Test
+    fun testGet24h() = runTest {
+        println(client.weatherModule().get24h("101040100"))
+    }
 }

@@ -4,6 +4,7 @@ import ink.duo3.caelum.api.CaelumApiClient
 import ink.duo3.caelum.api.model.WebResp
 import io.ktor.client.request.parameter
 import io.ktor.client.request.request
+import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 
 class WeatherModule internal constructor(
@@ -206,6 +207,25 @@ class WeatherModule internal constructor(
         return client.get("/weather/aqiNow") {
             parameter("latitude", latitude)
             parameter("longitude", longitude)
+        }
+    }
+
+    @Serializable
+    data class HourlyWeatherResp(
+        val hourly: List<Item>
+    ) {
+        @Serializable
+        data class Item(
+            val time: Instant,
+            val temp: Int,
+            val icon: String,
+            val text: String
+        )
+    }
+
+    suspend fun get24h(cityId: String): WebResp<HourlyWeatherResp> {
+        return client.get("/weather/24h") {
+            parameter("cityId", cityId)
         }
     }
 }

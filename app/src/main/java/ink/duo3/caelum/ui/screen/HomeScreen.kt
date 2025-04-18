@@ -32,6 +32,7 @@ import ink.duo3.caelum.ui.componets.AirQualityCard
 import ink.duo3.caelum.ui.componets.Banner
 import ink.duo3.caelum.ui.componets.BottomBar
 import ink.duo3.caelum.ui.componets.DailyWeatherCard
+import ink.duo3.caelum.ui.componets.HourlyWeatherCard
 import ink.duo3.caelum.ui.componets.InfoCard
 import ink.duo3.caelum.ui.componets.LocationItem
 import ink.duo3.caelum.ui.componets.MultilayerIcon
@@ -73,6 +74,12 @@ fun HomeScreen(vm: MainViewModel = koinViewModel()) {
 
                 vm.aqi.value?.let {
                     AirQualityCard(it.aqi, it.level, it.effect)
+                }
+
+                Spacer(Modifier.height(16.dp))
+
+                if(vm.hourlyWeather.value.isNotEmpty()) {
+                    HourlyWeatherCard(Modifier.fillMaxWidth(), vm.hourlyWeather.value)
                 }
 
                 Spacer(Modifier.height(16.dp))
