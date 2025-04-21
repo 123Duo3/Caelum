@@ -35,20 +35,24 @@ fun InfoCard(
         modifier
             .clip(RoundedCornerShape(24.dp))
             .background(MaterialTheme.colorScheme.surface)
-            .padding(16.dp, 12.dp)
     ) {
+        if (!(title.isNullOrBlank() and subtitle.isNullOrBlank())) {
+            Spacer(Modifier.height(12.dp))
+        }
         title?.let {
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(16.dp, 0.dp)
             )
         }
         subtitle?.let {
             Text(
                 text = subtitle,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
+                modifier = Modifier.padding(16.dp, 0.dp)
             )
         }
         content.invoke()

@@ -3,12 +3,15 @@ package ink.duo3.caelum.ui.componets
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -32,8 +35,9 @@ data class HourlyWeatherInfo(
 fun HourlyWeatherCard(modifier: Modifier = Modifier, data: List<HourlyWeatherInfo>) {
     InfoCard(modifier) {
         Row(
-            modifier = Modifier.horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.spacedBy(24.dp)
+            modifier = Modifier
+                .horizontalScroll(rememberScrollState())
+                .padding(0.dp, 16.dp)
         ) {
             data.fastForEachIndexed { i, item ->
                 HourlyWeatherItem(
@@ -44,6 +48,7 @@ fun HourlyWeatherCard(modifier: Modifier = Modifier, data: List<HourlyWeatherInf
                     highlight = i == 0
                 )
             }
+            Spacer(Modifier.width(16.dp))
         }
     }
 }
@@ -57,26 +62,31 @@ private fun HourlyWeatherItem(
     highlight: Boolean,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier
-            .then(
-                if (highlight) Modifier.background(
-                    MaterialTheme.colorScheme.surfaceContainer,
-                    shape = MaterialTheme.shapes.small
-                ) else Modifier
-            )
-            .padding(6.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Box(
+        modifier.widthIn(min = 72.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Text("$temp°", style = MaterialTheme.typography.titleSmall)
-        Spacer(Modifier.height(16.dp))
-        MultilayerIcon(weatherIcon, weatherLabel)
-        Spacer(Modifier.height(16.dp))
-        Text(
-            time,
-            style = MaterialTheme.typography.titleSmall,
-            color = LocalContentColor.current.copy(0.4f)
-        )
+        Column(
+            Modifier
+                .then(
+                    if (highlight) Modifier.background(
+                        MaterialTheme.colorScheme.surfaceContainer,
+                        shape = MaterialTheme.shapes.small
+                    ) else Modifier
+                )
+                .padding(6.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text("$temp°", style = MaterialTheme.typography.titleSmall)
+            Spacer(Modifier.height(16.dp))
+            MultilayerIcon(weatherIcon, weatherLabel)
+            Spacer(Modifier.height(16.dp))
+            Text(
+                time,
+                style = MaterialTheme.typography.titleSmall,
+                color = LocalContentColor.current.copy(0.4f)
+            )
+        }
     }
 }
 
